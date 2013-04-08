@@ -3,9 +3,14 @@ PHP-movie-database
 PHP-movie-database is a movie database script written in PHP.
 
 You have to do the following for the script to work:
-* Download [Twitter Bootstrap](http://twitter.github.com/bootstrap/), tested with 2.3.0
+* Download [Twitter Bootstrap](http://twitter.github.com/bootstrap/), tested with 2.3.1
+ * Just copy it straight to the script folder
 * Download [PHP IMDb Scraper](http://web3o.blogspot.se/2010/10/php-imdb-scraper-for-new-imdb-template.html), tested with update Feb 20 - 2013
+ * Copy it to the class/ directory
 
-Place the downloaded files in the script folder.
+When uploaded to your webpage will you need to make the director img/posters/ writable as it is the folder where the posters will be saved by the script.
 
-When uploaded to your webpage will you need to make the director /img/posters/ writable as it is the folder where the posters will be saved by the script.
+TODO:
+* imdB id till manproxy.php
+* Admin zon?
+* Möjlighet att markera de filmer man tittat på och betygsätta dom, 1-5
