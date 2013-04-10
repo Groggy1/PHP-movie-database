@@ -1,0 +1,20 @@
+body {
+	padding: 60px;
+	background: url('../img/bg.png');
+}
+
+.main {
+	background-color: #FFFFFF;
+}
+
+.hero-unit {
+	padding: 20px;
+}
+
+.hero-unit p {
+	font-size:medium;
+}
+
+a {
+	color:#1B1B1B;
+}
