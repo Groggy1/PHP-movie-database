@@ -8,7 +8,7 @@ class Database extends PDO {
 	private $pass;
 	private $post;
 
-	public function __construct() {
+	public function __construct() {//Note that this is the information for a local (virtual) machine that isn't accessible from the internet
 		$this -> engine = 'mysql';
 		$this -> host = 'localhost';
 		$this -> database = 'filmDB';
