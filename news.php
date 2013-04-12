@@ -9,7 +9,7 @@ $db = new Database();
 $result = $db -> select_query($sql, array(), 10, 1);
 
 $sitetitle = "Nyheter";
-require ('template/header.php');
+require_once ('template/header.php');
 ?>
 <div class="hero-unit">
 	<div class="row-fluid">
@@ -17,9 +17,9 @@ require ('template/header.php');
 			<h5> Nyheter! </h5>
 			<?php
 			foreach ($result as $value) {
-				echo "<b>" . $value[name] . "</b>, " . $value[date] . "<br>";
+				echo "<b>" . $value[name] . "</b>, " . $value[date] . "<p>";
 				echo $value[description];
-				echo "<br><br>";
+				echo "</p>";
 			}
 			?>
 		</div>
@@ -35,3 +35,5 @@ require ('template/header.php');
 		</div>
 	</div>
 </div>
+<?php
+require_once ('template/footer.php');
