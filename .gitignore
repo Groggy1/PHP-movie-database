@@ -169,6 +169,7 @@ sql replace.txt
 img/*
 !img/index.php
 !img/posters/
+!img/bg.png
 img/posters/*
 !img/posters/index.php
 css/*

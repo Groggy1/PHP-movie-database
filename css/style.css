@@ -22,3 +22,7 @@ a {
 p {
 	margin: 0;
 }
+
+textarea, input, select {
+	width: 100%;
+}

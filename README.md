@@ -9,10 +9,10 @@ The script is tested on both a local (virtual) Ubuntu 12.10 server with:
 * MySQL 5.5.29
 * Apache 2.2.22
 
-and on 000webhost.com with:
-* PHP 5.2.*
-* MySQL 5.1
-* Apache 2.2.19
+and on serversfree.com with:
+* PHP 5.4
+* MySQL 5.1.58
+* Apache 2.2.17
 
 You have to do the following for the script to work:
 -------------------------
@@ -25,6 +25,6 @@ When uploaded to your webpage will you need to make the director img/posters/ wr
 
 TODO:
 -------------------------
-[] Install script (for database)
-[] Admin zon?
-[] Possibility to mark seen movies, comment and rate them 
+[ ] Install script (for database)
+[ ] Admin zon?
+[x] Possibility to mark seen movies, comment and rate them 

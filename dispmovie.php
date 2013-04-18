@@ -81,10 +81,17 @@ foreach ($votes as $value) {
 		}
 	}
 	$averagepoint += $value['value'];
-	if(isset($value['value'])) {
+	if (isset($value['value'])) {
 		$numberofvoters++;
 	}
 }
+
+$sql = "SELECT usercomment.comment, users.name, usercomment.date FROM usercomment
+		JOIN users ON usercomment.userid = users.id
+		WHERE usercomment.movieid = :id
+		ORDER BY usercomment.date DESC";
+
+$comments = $db -> select_query($sql, array(':id' => $id));
 
 $sitetitle = $movie['title'] . " (" . $movie['year'] . ")";
 require_once 'template/header.php';
@@ -104,7 +111,7 @@ require_once 'template/header.php';
 	}
 	?>
 	<strong>Spr&aring;k/texning</strong>:<?php echo $movie['sub']; ?>. <strong>Typ</strong>:<?php echo $movie['type']; ?> 
-	<strong>Genomsnittspo&auml;ng</strong> <?php echo number_format($averagepoint/$numberofvoters, 2); ?></p>
+	<strong>Genomsnittspo&auml;ng</strong> <?php echo number_format($averagepoint / $numberofvoters, 1); ?></p>
 </div>
 <div class="hero-unit">
 	<div class="row-fluid">
@@ -139,16 +146,39 @@ require_once 'template/header.php';
 			?>
 			</p>
 		</div>
-		<div class="span6"></div>
+		<div class="span3">
+			<h4>Kommentarer</h4>
+			<?php
+			foreach ($comments as $value) {
+				echo '<p><strong>'.$value['name'].'</strong> '.$value['date'].'</p>';
+				echo '<p>'.$value['comment'].'</p>';
+			}
+			?>
+		</div>
+		<div class="span3">
+			<h4>Kommentera filmen!</h4>
+			<form class="form-horizontal" name = "input" action = "addvote.php" method = "post">
+				<select name="userid">
+					<?php
+					foreach ($users as $value) {
+						echo "<option value=\"" . $value['id'] . "\">" . $value['name'] . "</option>";
+					}
+					?>
+				</select>
+				<textarea name="comment" rows="10"></textarea>
+				<input type="hidden" name="mid" value="<?php echo $id; ?>" />
+				<button class="btn btn-primary" type="submit">L&auml;gg till kommentar</button>
+			</form>
+		</div>
 		<div class="span2">
 			<h4>Betygs&auml;tt filmen!</h4>
 			<?php
 			foreach ($users as $value) {
-				echo '<p>'.$value['name'] . ': ';
+				echo '<p>' . $value['name'] . ': ';
 				for ($i = 1; $i <= 5; $i++) {
 					echo '<a href ="addvote.php?uid=' . $value['id'] . '&vote=' . $i . '&mid=' . $id . '"';
 					if ($value['value'] == $i) {
-						echo 'style = "text-decoration:underline">';
+						echo 'style = "text-decoration:underline;font-weight:bold">';
 					} else {
 						echo '>';
 					}
