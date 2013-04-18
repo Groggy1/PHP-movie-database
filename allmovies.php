@@ -1,4 +1,5 @@
 <?php
+$starting_time_measure = MICROTIME(TRUE);
 require_once 'class/database.php';
 
 $genre = filter_var($_GET['genre'], FILTER_SANITIZE_NUMBER_INT);
@@ -66,14 +67,14 @@ require_once 'template/header.php';
 		<tbody>
 			<?php
 			foreach ($movies as $value) {
-				echo '<tr><td><a href = "dispmovie.php?id=' . $value['movieid'] . '">' . $value['title'] . '</a></td>';
-				echo '<td><a href="' . $filname;
+				echo '<tr><td><p><a href = "dispmovie.php?id=' . $value['movieid'] . '">' . $value['title'] . '</a></p></td>';
+				echo '<td><p><a href="' . $filname;
 				if (!empty($genre)) {
 					echo '?genre=' . $genre . '&year=' . $value['year'];
 				} else {
 					echo '?year=' . $value['year'];
 				}
-				echo '">' . $value['year'] . '</a></td><td>';
+				echo '">' . $value['year'] . '</a></p></td><td><p>';
 				for ($i = 1; $i <= count($value['genre']); $i++) {
 					echo '<a href="' . $filname;
 					if (!empty($year)) {
@@ -86,7 +87,7 @@ require_once 'template/header.php';
 						echo ', ';
 					}
 				}
-				echo '</td></tr>';
+				echo '</p></td></tr>';
 			}
 			?>
 		</tbody>

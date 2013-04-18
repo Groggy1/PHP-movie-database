@@ -1,4 +1,5 @@
 <?php
+$starting_time_measure = MICROTIME(TRUE);
 include ("class/imdb.php");
 require_once 'class/database.php';
 require_once 'class/arraytools.php';

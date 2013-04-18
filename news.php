@@ -1,4 +1,5 @@
 <?php
+$starting_time_measure = MICROTIME(TRUE);
 require_once 'class/database.php';
 
 $sql = "SELECT * FROM news

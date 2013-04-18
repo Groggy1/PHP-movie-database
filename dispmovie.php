@@ -1,8 +1,11 @@
 <?php
+$starting_time_measure = MICROTIME(TRUE);
 $id = intval($_GET['id']);
 
 if ($id == 0) {
-	echo "Fel!";
+	require_once 'template/header.php';
+	echo '<div class="hero-unit"><p>N&aring;got gick fel!</p></div>';
+	require_once 'template/footer.php';
 	break;
 }
 
@@ -59,6 +62,30 @@ foreach ($result as $key => $value) {
 	}
 }
 
+$sql = "SELECT id, name FROM users";
+
+$users = $db -> select_query($sql);
+
+$sql = "SELECT user_id, value FROM uservote
+		WHERE movie_id = :movieid";
+
+$votes = $db -> select_query($sql, array(':movieid' => $id));
+
+$averagepoint = 0;
+$numberofvoters = 0;
+
+foreach ($votes as $value) {
+	foreach ($users as $key => $value2) {
+		if ($value2['id'] == $value['user_id']) {
+			$users[$key]['value'] = $value['value'];
+		}
+	}
+	$averagepoint += $value['value'];
+	if(isset($value['value'])) {
+		$numberofvoters++;
+	}
+}
+
 $sitetitle = $movie['title'] . " (" . $movie['year'] . ")";
 require_once 'template/header.php';
 ?>
@@ -76,7 +103,8 @@ require_once 'template/header.php';
 		echo '<a href="allmovies.php?genre=' . $movie['genreid'][$i] . '">' . $movie['genre'][$i] . '</a>';
 	}
 	?>
-	<strong>Spr&aring;k/texning</strong>:<?php echo $movie['sub']; ?>. <strong>Typ</strong>:<?php echo $movie['type']; ?></p>
+	<strong>Spr&aring;k/texning</strong>:<?php echo $movie['sub']; ?>. <strong>Typ</strong>:<?php echo $movie['type']; ?> 
+	<strong>Genomsnittspo&auml;ng</strong> <?php echo number_format($averagepoint/$numberofvoters, 2); ?></p>
 </div>
 <div class="hero-unit">
 	<div class="row-fluid">
@@ -110,6 +138,25 @@ require_once 'template/header.php';
 			}
 			?>
 			</p>
+		</div>
+		<div class="span6"></div>
+		<div class="span2">
+			<h4>Betygs&auml;tt filmen!</h4>
+			<?php
+			foreach ($users as $value) {
+				echo '<p>'.$value['name'] . ': ';
+				for ($i = 1; $i <= 5; $i++) {
+					echo '<a href ="addvote.php?uid=' . $value['id'] . '&vote=' . $i . '&mid=' . $id . '"';
+					if ($value['value'] == $i) {
+						echo 'style = "text-decoration:underline">';
+					} else {
+						echo '>';
+					}
+					echo $i . '</a> ';
+				}
+				echo '</p>';
+			}
+			?>
 		</div>
 	</div>
 </div>

@@ -1,4 +1,5 @@
 <?php
+$starting_time_measure = MICROTIME(TRUE);
 $actors = $_POST['actors'];
 $directors = $_POST['directors'];
 $genres = $_POST['genres'];

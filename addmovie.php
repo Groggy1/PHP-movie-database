@@ -1,4 +1,5 @@
 <?php
+$starting_time_measure = MICROTIME(TRUE);
 include 'class/database.php';
 include 'class/arraytools.php';
 

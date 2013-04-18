@@ -18,3 +18,7 @@ body {
 a {
 	color:#1B1B1B;
 }
+
+p {
+	margin: 0;
+}
