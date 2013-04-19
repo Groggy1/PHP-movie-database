@@ -20,11 +20,12 @@ You have to do the following for the script to work:
  * Just copy it straight to the script folder
 * Download [PHP IMDb Scraper](http://web3o.blogspot.se/2010/10/php-imdb-scraper-for-new-imdb-template.html), tested with update Feb 20 - 2013
  * Copy it to the class/ directory
+* Run the install script located in the install directory, then remove it from the webserver.
 
 When uploaded to your webpage will you need to make the director img/posters/ writable as it is the folder where the posters will be saved by the script.
 
 TODO:
 -------------------------
-[x] Install script (for database)
-[ ] Admin zon?
-[x] Possibility to mark seen movies, comment and rate them 
+- [x] Install script (for database)
+- [ ] Admin zon?
+- [x] Possibility to mark seen movies, comment and rate them 
