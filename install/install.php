@@ -1,21 +1,14 @@
--- phpMyAdmin SQL Dump
--- version 3.4.11.1deb1
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Apr 18, 2013 at 08:55 PM
--- Server version: 5.5.29
--- PHP Version: 5.4.6-1ubuntu1.2
+<?php
+require_once '../class/database.php';
+$db = new Database();
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+//Fixa så data från users.php används för att lägga in användare i users
+$param = array();
+for($i = 0;$i < $_POST['numberusers'];$i++){
+	$param[] = array(':user' => $_POST[$i]);
+}
 
---
--- Database: `filmDB`
---
-
--- --------------------------------------------------------
-
+$sql = "
 --
 -- Table structure for table `actors`
 --
@@ -24,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `actors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `actor` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4990 ;
 
 -- --------------------------------------------------------
 
@@ -47,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `directors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `director` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=360 ;
 
 -- --------------------------------------------------------
 
@@ -70,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `genres` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `genre` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 -- --------------------------------------------------------
 
@@ -110,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `movies` (
   `type` varchar(11) NOT NULL,
   `sub` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=448 ;
 
 -- --------------------------------------------------------
 
@@ -124,11 +117,11 @@ CREATE TABLE IF NOT EXISTS `movietype` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `movietype` (`short`, `type`) VALUES
-('M', 'Film'),
-('TVS', 'TV Serie'),
-('TV', 'TV Film'),
-('V', 'Video'),
-('VG', 'Dator spel');
+('M', :m),
+('TVS', :tvs),
+('TV', :tv),
+('V', :v),
+('VG', :vg);
 
 -- --------------------------------------------------------
 
@@ -142,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `news` (
   `description` mediumtext NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -157,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `queue` (
   `year` int(10) NOT NULL,
   `added` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
 
 -- --------------------------------------------------------
 
@@ -182,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -194,4 +187,11 @@ CREATE TABLE IF NOT EXISTS `uservote` (
   `user_id` int(11) NOT NULL,
   `movie_id` int(11) NOT NULL,
   `value` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+
+$db -> select_query($sql,array(':m' => "Film", ':tvs' => "TV Serie", ':tv' => "TV Film", ':v' => "Video", ':vg' => "Dator spel"));
+
+$sql = "INSERT INTO `users`(`name`) VALUES (:user)";
+$db -> multi_query($sql,$param);
+
+echo 'Databasen är importerad!';

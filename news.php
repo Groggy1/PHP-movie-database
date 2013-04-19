@@ -18,7 +18,7 @@ require_once ('template/header.php');
 			<h5> Nyheter! </h5>
 			<?php
 			foreach ($result as $value) {
-				echo "<b>" . $value[name] . "</b>, " . $value[date] . "<p>";
+				echo "<p><strong>" . $value[name] . "</strong>, " . $value[date] . "</p><p>";
 				echo $value[description];
 				echo "</p>";
 			}

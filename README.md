@@ -25,6 +25,6 @@ When uploaded to your webpage will you need to make the director img/posters/ wr
 
 TODO:
 -------------------------
-[ ] Install script (for database)
+[x] Install script (for database)
 [ ] Admin zon?
 [x] Possibility to mark seen movies, comment and rate them 

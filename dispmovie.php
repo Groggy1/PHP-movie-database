@@ -111,7 +111,12 @@ require_once 'template/header.php';
 	}
 	?>
 	<strong>Spr&aring;k/texning</strong>:<?php echo $movie['sub']; ?>. <strong>Typ</strong>:<?php echo $movie['type']; ?> 
-	<strong>Genomsnittspo&auml;ng</strong> <?php echo number_format($averagepoint / $numberofvoters, 1); ?></p>
+	<strong>Genomsnittspo&auml;ng</strong>
+	<?php
+	if(count($votes) > 0)
+	{
+	echo number_format($averagepoint / $numberofvoters, 1);
+}	?></p>
 </div>
 <div class="hero-unit">
 	<div class="row-fluid">
