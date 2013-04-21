@@ -10,10 +10,11 @@ if ($id == 0) {
 }
 
 require_once 'class/database.php';
+require_once 'class/arraytools.php';
 
 $db = new Database();
 
-$sql = "SELECT movies.title, movies.year, movies.poster, movies.plot, movies.sub, actors.actor, directors.director, movietype.type, genres.genre, genres.id as genreid
+$sql = "SELECT movies.imdbid, movies.title, movies.year, movies.poster, movies.plot, movies.sub, actors.actor, directors.director, movietype.type, genres.genre, genres.id as genreid
 		FROM movies
 		JOIN actorsinmovies ON movies.id = actorsinmovies.movie_id
 		JOIN actors ON actors.id = actorsinmovies.actor_id
@@ -43,6 +44,7 @@ foreach ($result as $key => $value) {
 		$movie['plot'] = $value['plot'];
 		$movie['sub'] = $value['sub'];
 		$movie['type'] = $value['type'];
+		$movie['imdbid'] = $value['imdbid'];
 	}
 	if (!in_array($value['actor'], $movie['actor'])) {
 		$movie['actor'][$i] = $value['actor'];
@@ -89,34 +91,50 @@ foreach ($votes as $value) {
 $sql = "SELECT usercomment.comment, users.name, usercomment.date FROM usercomment
 		JOIN users ON usercomment.userid = users.id
 		WHERE usercomment.movieid = :id
-		ORDER BY usercomment.date DESC";
+		ORDER BY usercomment.date, usercomment.id DESC";
 
 $comments = $db -> select_query($sql, array(':id' => $id));
+
+$sql = "SELECT userid FROM userviewed
+		WHERE movieid = :id";
+
+$ar = new ArrayTools();
+$viewed = $db -> select_query($sql, array(':id' => $id));
+$viewed = $ar -> unique_flat_array($viewed);
 
 $sitetitle = $movie['title'] . " (" . $movie['year'] . ")";
 require_once 'template/header.php';
 ?>
 <div class="hero-unit">
 	<h3><?php
-	echo $movie['title'] . " (" . $movie['year'] . ")";
+	if (!empty($movie['imdbid'])) {
+		echo '<a href="http://www.imdb.com/title/' . $movie['imdbid'] . '" target="blank">';
+	}
+	echo $movie['title'];
+	if (!empty($movie['imdbid'])) {
+		echo '</a>';
+	}
+	echo " (" . $movie['year'] . ")";
 	?></h3>
 	<p>
-	<strong>Genres:</strong>
-	<?php
-	for ($i = 0; $i < count($movie['genreid']); $i++) {
-		if ($i > 0) {
-			echo ", ";
+		<strong>Genres:</strong>
+		<?php
+		for ($i = 0; $i < count($movie['genreid']); $i++) {
+			if ($i > 0) {
+				echo ", ";
+			}
+			echo '<a href="allmovies.php?genre=' . $movie['genreid'][$i] . '">' . $movie['genre'][$i] . '</a>';
 		}
-		echo '<a href="allmovies.php?genre=' . $movie['genreid'][$i] . '">' . $movie['genre'][$i] . '</a>';
-	}
-	?>
-	<strong>Spr&aring;k/texning</strong>:<?php echo $movie['sub']; ?>. <strong>Typ</strong>:<?php echo $movie['type']; ?> 
-	<strong>Genomsnittspo&auml;ng</strong>
-	<?php
-	if(count($votes) > 0)
-	{
-	echo number_format($averagepoint / $numberofvoters, 1);
-}	?></p>
+		?>
+		<strong>Spr&aring;k/texning</strong>:<?php echo $movie['sub']; ?>.
+		<strong>Typ</strong>:<?php echo $movie['type']; ?>
+		<strong>Genomsnittspo&auml;ng</strong>
+		<?php
+		if (count($votes) > 0) {
+			echo number_format($averagepoint / $numberofvoters, 1);
+		}
+	?><
+		/p>
 </div>
 <div class="hero-unit">
 	<div class="row-fluid">
@@ -134,35 +152,35 @@ require_once 'template/header.php';
 		<div class="span2">
 			<h4>Sk&aring;despelare</h4>
 			<p>
-			<?php
-			foreach ($movie['actor'] as $value) {
-				echo $value . "<br>";
-			}
-			?>
+				<?php
+				foreach ($movie['actor'] as $value) {
+					echo $value . "<br>";
+				}
+				?>
 			</p>
 		</div>
 		<div class="span2">
 			<h4>Regis&ouml;rer</h4>
 			<p>
-			<?php
-			foreach ($movie['director'] as $value) {
-				echo $value . "<br>";
-			}
-			?>
+				<?php
+				foreach ($movie['director'] as $value) {
+					echo $value . "<br>";
+				}
+				?>
 			</p>
 		</div>
 		<div class="span3">
 			<h4>Kommentarer</h4>
 			<?php
 			foreach ($comments as $value) {
-				echo '<p><strong>'.$value['name'].'</strong> '.$value['date'].'</p>';
-				echo '<p>'.$value['comment'].'</p>';
+				echo '<p><strong>' . $value['name'] . '</strong> ' . $value['date'] . '</p>';
+				echo '<p>' . $value['comment'] . '</p>';
 			}
 			?>
 		</div>
 		<div class="span3">
 			<h4>Kommentera filmen!</h4>
-			<form class="form-horizontal" name = "input" action = "addvote.php" method = "post">
+			<form class="form-horizontal" name = "input" action = "usermovie.php" method = "post">
 				<select name="userid">
 					<?php
 					foreach ($users as $value) {
@@ -172,16 +190,24 @@ require_once 'template/header.php';
 				</select>
 				<textarea name="comment" rows="10"></textarea>
 				<input type="hidden" name="mid" value="<?php echo $id; ?>" />
-				<button class="btn btn-primary" type="submit">L&auml;gg till kommentar</button>
+				<button class="btn btn-primary" type="submit">
+					L&auml;gg till kommentar
+				</button>
 			</form>
 		</div>
 		<div class="span2">
 			<h4>Betygs&auml;tt filmen!</h4>
 			<?php
-			foreach ($users as $value) {
-				echo '<p>' . $value['name'] . ': ';
+			foreach ($users as $key => $value) {
+				echo '<p>' . $value['name'];
+				if (in_array($key + 1, $viewed)) {
+					echo ' <i class =" icon-ok"></i>';
+				} else {
+					echo ' <i class =" icon-remove"></i>';
+				}
+				echo ' : ';
 				for ($i = 1; $i <= 5; $i++) {
-					echo '<a href ="addvote.php?uid=' . $value['id'] . '&vote=' . $i . '&mid=' . $id . '"';
+					echo '<a href ="usermovie.php?uid=' . $value['id'] . '&vote=' . $i . '&mid=' . $id . '"';
 					if ($value['value'] == $i) {
 						echo 'style = "text-decoration:underline;font-weight:bold">';
 					} else {

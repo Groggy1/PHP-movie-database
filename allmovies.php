@@ -59,9 +59,9 @@ require_once 'template/header.php';
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th width="40%">Film</th>
-				<th width="10%">&Aring;r</th>
-				<th width="50%">Genres</th>
+				<th>Film</th>
+				<th>&Aring;r</th>
+				<th>Genres</th>
 			</tr>
 		</thead>
 		<tbody>

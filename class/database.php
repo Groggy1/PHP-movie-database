@@ -18,6 +18,7 @@ class Database extends PDO {
 
 		$dsn = $this -> engine . ':host=' . $this -> host . ';post=' . $this -> port . ';dbname=' . $this -> database;
 		parent::__construct($dsn, $this -> user, $this -> pass);
+		$this -> exec("SET CHARACTER SET utf8");
 	}
 
 	public function alteration_query($query)

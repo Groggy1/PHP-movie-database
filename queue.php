@@ -37,9 +37,10 @@ require_once 'template/header.php';
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="35%">Titel</th>
-						<th width="50%">Genres</th>
-						<th width="10%">Tillagd</th>
+						<th>Titel</th>
+						<th>Genres</th>
+						<th>Tillagd</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -64,7 +65,7 @@ require_once 'template/header.php';
 				<div class="control-group">
 					<label class="control-label" for="inputimdb">L&auml;gg till i k&ouml;</label>
 					<div class="controls">
-						<input type="text" name="imdbid" placeholder="IMDb ID" style="width: 100%" />
+						<input type="text" name="imdbid" placeholder="IMDb ID" />
 					</div>
 				</div>
 				<div class="control-group">
