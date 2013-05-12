@@ -36,7 +36,7 @@ if (empty($_POST)) {
 } else {
 	$sql = "INSERT INTO `usercomment`(`userid`, `movieid`, `comment`, date)
 			VALUES (:userid,:movieid,:comment,now())";
-	$param = array(':userid' => $_POST['userid'], 'movieid' => $_POST['mid'], ':comment' => $_POST['comment']);
+	$param = array(':userid' => $_POST['userid'], 'movieid' => $_POST['mid'], ':comment' => strip_tags($_POST['comment']));
 	$db -> select_query($sql, $param);
 
 	$sql = "SELECT `userid` FROM `userviewed`
