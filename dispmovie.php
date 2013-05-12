@@ -11,8 +11,10 @@ if ($id == 0) {
 
 require_once 'class/database.php';
 require_once 'class/arraytools.php';
+require_once 'class/display.php';
 
 $db = new Database();
+$display = new Display();
 
 $sql = "SELECT movies.imdbid, movies.title, movies.year, movies.poster, movies.plot, movies.sub, actors.actor, directors.director, movietype.type, genres.genre, genres.id as genreid
 		FROM movies
@@ -38,28 +40,28 @@ $movie['genreid'] = array();
 
 foreach ($result as $key => $value) {
 	if ($key == 0) {
-		$movie['title'] = $value['title'];
-		$movie['year'] = $value['year'];
-		$movie['poster'] = $value['poster'];
-		$movie['plot'] = $value['plot'];
-		$movie['sub'] = $value['sub'];
-		$movie['type'] = $value['type'];
-		$movie['imdbid'] = $value['imdbid'];
+		$movie['title'] = ($value['title']);
+		$movie['year'] = ($value['year']);
+		$movie['poster'] = ($value['poster']);
+		$movie['plot'] = nl2br(($value['plot']));
+		$movie['sub'] = ($value['sub']);
+		$movie['type'] = ($value['type']);
+		$movie['imdbid'] = ($value['imdbid']);
 	}
 	if (!in_array($value['actor'], $movie['actor'])) {
-		$movie['actor'][$i] = $value['actor'];
+		$movie['actor'][$i] = ($value['actor']);
 		$i++;
 	}
 	if (!in_array($value['director'], $movie['director'])) {
-		$movie['director'][$j] = $value['director'];
+		$movie['director'][$j] = ($value['director']);
 		$j++;
 	}
 	if (!in_array($value['genre'], $movie['genre'])) {
-		$movie['genre'][$k] = $value['genre'];
+		$movie['genre'][$k] = ($value['genre']);
 		$k++;
 	}
 	if (!in_array($value['genreid'], $movie['genreid'])) {
-		$movie['genreid'][$l] = $value['genreid'];
+		$movie['genreid'][$l] = ($value['genreid']);
 		$l++;
 	}
 }
@@ -133,10 +135,7 @@ require_once 'template/header.php';
 		if (count($votes) > 0) {
 			echo number_format($averagepoint / $numberofvoters, 1);
 		}
-	?><
-		/p>
-</div>
-<div class="hero-unit">
+	?></p>
 	<div class="row-fluid">
 		<div class="span4">
 			<img src="img/posters/<?php echo $movie['poster']; ?>" />
@@ -174,20 +173,14 @@ require_once 'template/header.php';
 			<?php
 			foreach ($comments as $value) {
 				echo '<p><strong>' . $value['name'] . '</strong> ' . $value['date'] . '</p>';
-				echo '<p>' . $value['comment'] . '</p>';
+				echo '<p>' . nl2br($value['comment']) . '</p>';
 			}
 			?>
 		</div>
 		<div class="span3">
 			<h4>Kommentera filmen!</h4>
 			<form class="form-horizontal" name = "input" action = "usermovie.php" method = "post">
-				<select name="userid">
-					<?php
-					foreach ($users as $value) {
-						echo "<option value=\"" . $value['id'] . "\">" . $value['name'] . "</option>";
-					}
-					?>
-				</select>
+				<?php $display -> dispselectuser($users); ?>
 				<textarea name="comment" rows="10"></textarea>
 				<input type="hidden" name="mid" value="<?php echo $id; ?>" />
 				<button class="btn btn-primary" type="submit">

@@ -19,8 +19,7 @@ if (!empty($movieArray['original_title'])) {
 } else {
 	$title = trim($movieArray['title']);
 }
-?>
-<?php
+
 $sitetitle = "L&auml;gg till film";
 
 require_once 'template/header.php';

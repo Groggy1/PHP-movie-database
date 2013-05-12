@@ -1,11 +1,11 @@
 <?php
-if (strlen($_POST['name']) && strlen($_POST['description'])) {
+if (strlen($_POST['userid']) && strlen($_POST['description'])) {
 	require_once 'class/database.php';
 	$db = new Database();
-	$sql = 'INSERT INTO news (name, description, date)
-			VALUES (:name, :description, CURDATE())';
+	$sql = 'INSERT INTO news (userid, description, date)
+			VALUES (:userid, :description, CURDATE())';
 
-	$param = array(':name' => $_POST['name'], ':description' => $_POST['description']);
+	$param = array(':userid' => $_POST['userid'], ':description' => strip_tags($_POST['description']));
 	$db -> select_query($sql,$param);
 
 	header("Location:news.php");

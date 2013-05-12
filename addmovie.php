@@ -39,22 +39,22 @@ if (sizeof($count) == 0) {
 	$sql = "INSERT INTO movies (imdbid, title, plot, year, poster, type, sub)
  VALUES(:imdbid, :title, :plot, :year, :path, :type, :sub)";
 
-	$param = array(':imdbid' => $_POST['imdbid'], ':title' => $_POST['title'], ':plot' => $_POST['plot'], ':year' => $_POST['year'], ':path' => $path, ':type' => $_POST['type'], ':sub' => $_POST['sub']);
+	$param = array(':imdbid' => $_POST['imdbid'], ':title' => strip_tags($_POST['title']), ':plot' => strip_tags($_POST['plot']), ':year' => strip_tags($_POST['year']), ':path' => $path, ':type' => strip_tags($_POST['type']), ':sub' => strip_tags($_POST['sub']));
 
 	$db -> select_query($sql, $param);
 	$mid = $db -> lastInsertId('id');
 
 	$genreparam = array();
 	foreach ($genres as $value) {
-		$genreparam[] = array(':genre' => $value);
+		$genreparam[] = array(':genre' => strip_tags($value));
 	}
 	$actorparam = array();
 	foreach ($actors as $value) {
-		$actorparam[] = array(':actor' => $value);
+		$actorparam[] = array(':actor' => strip_tags($value));
 	}
 	$directorparam = array();
 	foreach ($directors as $value) {
-		$directorparam[] = array(':director' => $value);
+		$directorparam[] = array(':director' => strip_tags($value));
 	}
 
 	########################################################
@@ -70,7 +70,7 @@ if (sizeof($count) == 0) {
 
 	$paraminsert = array();
 	foreach ($genrenotindb as $value) {
-		$paraminsert[] = array(':genre' => $value);
+		$paraminsert[] = array(':genre' => strip_tags($value));
 	}
 
 	$sql = "INSERT INTO genres (genre)
@@ -109,7 +109,7 @@ if (sizeof($count) == 0) {
 
 	$actorinsertparam = array();
 	foreach ($actorsinmovienotdb as $value) {
-		$actorinsertparam[] = array(':actor' => $value);
+		$actorinsertparam[] = array(':actor' => strip_tags($value));
 	}
 
 	$sql = "INSERT INTO actors (actor)
@@ -146,7 +146,7 @@ if (sizeof($count) == 0) {
 
 	$directorsinsertdb = array();
 	foreach ($directorsnotindb as $value) {
-		$directorsinsertdb[] = array(':director' => $value);
+		$directorsinsertdb[] = array(':director' => strip_tags($value));
 	}
 
 	$sql = "INSERT INTO directors (director)

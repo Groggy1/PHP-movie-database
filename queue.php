@@ -46,9 +46,9 @@ require_once 'template/header.php';
 				<tbody>
 					<?php
 					foreach ($movies as $value) {
-						echo '<tr><td><a href="http://www.imdb.com/title/' . $value['imdb'] . '" target="_blank">' . $value['title'] . '</a> (' . $value['year'] . ')</td>';
-						echo '<td>' . implode(', ', $value['genre']) . '</td><td>' . $value['added'] . '</td>';
-						echo '<td><a href="link.php?imdb=' . $value['imdb'] . '"><i class="icon-remove"></i></a></td></tr>';
+						echo '<tr><td><p><a href="http://www.imdb.com/title/' . $value['imdb'] . '" target="_blank">' . $value['title'] . '</a> (' . $value['year'] . ')</p></td>';
+						echo '<td><p>' . implode(', ', $value['genre']) . '</p></td><td><p>' . $value['added'] . '</p></td>';
+						echo '<td><p><a href="link.php?imdb=' . $value['imdb'] . '"><i class="icon-remove"></i></a></p></td></tr>';
 					}
 					?>
 				</tbody>
