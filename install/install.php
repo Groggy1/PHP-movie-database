@@ -10,19 +10,19 @@ for($i = 0;$i < $_POST['numberusers'];$i++){
 
 $sql = "
 --
--- Table structure for table `actors`
+-- Tabellstruktur `actors`
 --
 
 CREATE TABLE IF NOT EXISTS `actors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `actor` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4990 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `actorsinmovies`
+-- Tabellstruktur `actorsinmovies`
 --
 
 CREATE TABLE IF NOT EXISTS `actorsinmovies` (
@@ -33,19 +33,19 @@ CREATE TABLE IF NOT EXISTS `actorsinmovies` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `directors`
+-- Tabellstruktur `directors`
 --
 
 CREATE TABLE IF NOT EXISTS `directors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `director` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=360 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `directorsinmovies`
+-- Tabellstruktur `directorsinmovies`
 --
 
 CREATE TABLE IF NOT EXISTS `directorsinmovies` (
@@ -56,19 +56,19 @@ CREATE TABLE IF NOT EXISTS `directorsinmovies` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `genres`
+-- Tabellstruktur `genres`
 --
 
 CREATE TABLE IF NOT EXISTS `genres` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `genre` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `genresinmovies`
+-- Tabellstruktur `genresinmovies`
 --
 
 CREATE TABLE IF NOT EXISTS `genresinmovies` (
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `genresinmovies` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `genresinqueue`
+-- Tabellstruktur `genresinqueue`
 --
 
 CREATE TABLE IF NOT EXISTS `genresinqueue` (
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `genresinqueue` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `movies`
+-- Tabellstruktur `movies`
 --
 
 CREATE TABLE IF NOT EXISTS `movies` (
@@ -103,12 +103,12 @@ CREATE TABLE IF NOT EXISTS `movies` (
   `type` varchar(11) NOT NULL,
   `sub` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=448 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `movietype`
+-- Tabellstruktur `movietype`
 --
 
 CREATE TABLE IF NOT EXISTS `movietype` (
@@ -126,21 +126,22 @@ INSERT INTO `movietype` (`short`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `news`
+-- Tabellstruktur `news`
 --
 
 CREATE TABLE IF NOT EXISTS `news` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `description` mediumtext NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `queue`
+-- Tabellstruktur `queue`
 --
 
 CREATE TABLE IF NOT EXISTS `queue` (
@@ -150,12 +151,12 @@ CREATE TABLE IF NOT EXISTS `queue` (
   `year` int(10) NOT NULL,
   `added` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usercomment`
+-- Tabellstruktur `usercomment`
 --
 
 CREATE TABLE IF NOT EXISTS `usercomment` (
@@ -170,38 +171,38 @@ CREATE TABLE IF NOT EXISTS `usercomment` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Tabellstruktur `users`
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `userviewed`
+-- Tabellstruktur `userviewed`
 --
 
 CREATE TABLE IF NOT EXISTS `userviewed` (
   `userid` int(11) NOT NULL,
   `movieid` int(11) NOT NULL,
   `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `uservote`
+-- Tabellstruktur `uservote`
 --
 
 CREATE TABLE IF NOT EXISTS `uservote` (
   `user_id` int(11) NOT NULL,
   `movie_id` int(11) NOT NULL,
   `value` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
 
 $db -> select_query($sql,array(':m' => "Film", ':tvs' => "TV Serie", ':tv' => "TV Film", ':v' => "Video", ':vg' => "Dator spel"));
 

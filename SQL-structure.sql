@@ -1,23 +1,23 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.11.1deb1
+-- version 3.5.8.1deb1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Apr 18, 2013 at 08:55 PM
--- Server version: 5.5.29
--- PHP Version: 5.4.6-1ubuntu1.2
+-- Värd: localhost
+-- Skapad: 18 maj 2013 kl 09:33
+-- Serverversion: 5.5.31-0ubuntu0.13.04.1
+-- PHP-version: 5.4.9-4ubuntu2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Database: `filmDB`
+-- Databas: `filmDB`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `actors`
+-- Tabellstruktur `actors`
 --
 
 CREATE TABLE IF NOT EXISTS `actors` (
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `actors` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `actorsinmovies`
+-- Tabellstruktur `actorsinmovies`
 --
 
 CREATE TABLE IF NOT EXISTS `actorsinmovies` (
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `actorsinmovies` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `directors`
+-- Tabellstruktur `directors`
 --
 
 CREATE TABLE IF NOT EXISTS `directors` (
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `directors` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `directorsinmovies`
+-- Tabellstruktur `directorsinmovies`
 --
 
 CREATE TABLE IF NOT EXISTS `directorsinmovies` (
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `directorsinmovies` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `genres`
+-- Tabellstruktur `genres`
 --
 
 CREATE TABLE IF NOT EXISTS `genres` (
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `genres` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `genresinmovies`
+-- Tabellstruktur `genresinmovies`
 --
 
 CREATE TABLE IF NOT EXISTS `genresinmovies` (
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `genresinmovies` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `genresinqueue`
+-- Tabellstruktur `genresinqueue`
 --
 
 CREATE TABLE IF NOT EXISTS `genresinqueue` (
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `genresinqueue` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `movies`
+-- Tabellstruktur `movies`
 --
 
 CREATE TABLE IF NOT EXISTS `movies` (
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `movies` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `movietype`
+-- Tabellstruktur `movietype`
 --
 
 CREATE TABLE IF NOT EXISTS `movietype` (
@@ -133,11 +133,12 @@ INSERT INTO `movietype` (`short`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `news`
+-- Tabellstruktur `news`
 --
 
 CREATE TABLE IF NOT EXISTS `news` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `description` mediumtext NOT NULL,
   `date` date NOT NULL,
@@ -147,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `news` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `queue`
+-- Tabellstruktur `queue`
 --
 
 CREATE TABLE IF NOT EXISTS `queue` (
@@ -162,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `queue` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usercomment`
+-- Tabellstruktur `usercomment`
 --
 
 CREATE TABLE IF NOT EXISTS `usercomment` (
@@ -177,36 +178,35 @@ CREATE TABLE IF NOT EXISTS `usercomment` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Tabellstruktur `users`
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `userviewed`
+-- Tabellstruktur `userviewed`
 --
 
 CREATE TABLE IF NOT EXISTS `userviewed` (
   `userid` int(11) NOT NULL,
   `movieid` int(11) NOT NULL,
   `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `uservote`
+-- Tabellstruktur `uservote`
 --
 
 CREATE TABLE IF NOT EXISTS `uservote` (
   `user_id` int(11) NOT NULL,
   `movie_id` int(11) NOT NULL,
   `value` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

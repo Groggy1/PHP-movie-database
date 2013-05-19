@@ -183,6 +183,7 @@ require_once 'template/header.php';
 				<?php $display -> dispselectuser($users); ?>
 				<textarea name="comment" rows="10"></textarea>
 				<input type="hidden" name="mid" value="<?php echo $id; ?>" />
+				<input type="hidden" name="action" value="1" />
 				<button class="btn btn-primary" type="submit">
 					L&auml;gg till kommentar
 				</button>
@@ -196,11 +197,11 @@ require_once 'template/header.php';
 				if (in_array($key + 1, $viewed)) {
 					echo ' <i class =" icon-ok"></i>';
 				} else {
-					echo ' <i class =" icon-remove"></i>';
+					echo ' <a href="usermovie.php?action=2&uid=' . $value['id'] . '&mid=' . $id . '"><i class =" icon-remove"></i></a>';
 				}
 				echo ' : ';
 				for ($i = 1; $i <= 5; $i++) {
-					echo '<a href ="usermovie.php?uid=' . $value['id'] . '&vote=' . $i . '&mid=' . $id . '"';
+					echo '<a href ="usermovie.php?action=3&uid=' . $value['id'] . '&vote=' . $i . '&mid=' . $id . '"';
 					if ($value['value'] == $i) {
 						echo 'style = "text-decoration:underline;font-weight:bold">';
 					} else {
