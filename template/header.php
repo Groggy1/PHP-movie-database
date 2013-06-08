@@ -42,6 +42,14 @@
 								<a href="allmovies.php">Alla filmer</a>
 							</li>
 							<li class="
+							<?php
+							if($filname == "moviewall.php")
+								echo 'active'
+								?>
+								">
+								<a href="moviewall.php">Alla filmer med posters</a>
+							</li>
+							<li class="
 					<?php
 					if ($filname == "search.php") {
 						echo 'active';
