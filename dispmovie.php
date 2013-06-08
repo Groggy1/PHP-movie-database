@@ -18,13 +18,13 @@ $display = new Display();
 
 $sql = "SELECT movies.imdbid, movies.title, movies.year, movies.poster, movies.plot, movies.sub, actors.actor, directors.director, movietype.type, genres.genre, genres.id as genreid
 		FROM movies
-		JOIN actorsinmovies ON movies.id = actorsinmovies.movie_id
-		JOIN actors ON actors.id = actorsinmovies.actor_id
-		JOIN directorsinmovies ON movies.id = directorsinmovies.movie_id
-		JOIN directors ON directorsinmovies.director_id = directors.id
-		JOIN movietype ON movies.type = movietype.short
-		JOIN genresinmovies ON movies.id = genresinmovies.movie_id
-		JOIN genres ON genresinmovies.genre_id = genres.id
+		LEFT JOIN actorsinmovies ON movies.id = actorsinmovies.movie_id
+		LEFT JOIN actors ON actors.id = actorsinmovies.actor_id
+		LEFT JOIN directorsinmovies ON movies.id = directorsinmovies.movie_id
+		LEFT JOIN directors ON directorsinmovies.director_id = directors.id
+		LEFT JOIN movietype ON movies.type = movietype.short
+		LEFT JOIN genresinmovies ON movies.id = genresinmovies.movie_id
+		LEFT JOIN genres ON genresinmovies.genre_id = genres.id
 		WHERE movies.id = :id";
 
 $result = $db -> select_query($sql, array(':id' => $id));
