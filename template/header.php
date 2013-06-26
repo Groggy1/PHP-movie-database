@@ -78,6 +78,15 @@
 					</li>
 					<li class="
 					<?php
+					if ($filname == "towatch.php") {
+						echo 'active';
+					}
+						?>
+					">
+						<a href="towatch.php">Filmer att se</a>
+					</li>
+					<li class="
+					<?php
 					if ($filname == "news.php" || $filname == "addnews.php") {
 						echo 'active';
 					}

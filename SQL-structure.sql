@@ -163,6 +163,18 @@ CREATE TABLE IF NOT EXISTS `queue` (
 -- --------------------------------------------------------
 
 --
+-- Tabellstruktur `towatch`
+--
+
+CREATE TABLE IF NOT EXISTS `towatch` (
+  `movieid` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellstruktur `usercomment`
 --
 

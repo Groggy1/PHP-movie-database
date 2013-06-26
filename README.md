@@ -18,7 +18,7 @@ You have to do the following for the script to work:
 -------------------------
 * Download [Twitter Bootstrap](http://twitter.github.com/bootstrap/), created with 2.3.1
  * Just copy it straight to the script folder
-* Download [PHP IMDb Scraper](http://web3o.blogspot.se/2010/10/php-imdb-scraper-for-new-imdb-template.html), tested with update Feb 20 - 2013
+* Download [PHP IMDb Scraper](http://web3o.blogspot.se/2010/10/php-imdb-scraper-for-new-imdb-template.html), tested with update June 10 - 2013 
  * Copy it to the class/ directory
 * Change MySQL account information in file class/database.php
 * Run the install script located in the install directory, then remove it from the webserver (for safety)

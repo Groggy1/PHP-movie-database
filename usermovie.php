@@ -5,7 +5,7 @@ require_once 'class/arraytools.php';
 $db = new Database();
 $ar = new ArrayTools();
 
-if (is_numeric($_REQUEST['mid']) && is_numeric($_REQUEST['uid']) && !empty($_REQUEST['mid']) && !empty($_REQUEST['uid'])) {
+if (is_numeric($_REQUEST['mid']) && is_numeric($_REQUEST['uid']) && !empty($_REQUEST['mid']) && !empty($_REQUEST['uid']) && is_numeric($_REQUEST['action']) && isset($_REQUEST['action']) && $_REQUEST['action'] != "4") {
 	$sql = "SELECT count(*) FROM `userviewed` WHERE
 			`movieid` = :mid AND `userid` = :uid";
 
@@ -44,11 +44,16 @@ if (is_numeric($_REQUEST['action']) && isset($_REQUEST['action'])) {
 
 			$result = $db -> select_query($sql, array(':vote' => $_GET['vote'], ':movieid' => $_GET['mid'], ':userid' => $_GET['uid']));
 		}
+	}elseif ($_REQUEST['action'] == 4 && is_numeric($_REQUEST['mid']) && is_numeric($_REQUEST['uid'])) {
+		$sql = "INSERT INTO towatch(movieid, userid, date) 
+				VALUES (:mid,:uid,now())";
+				
+		$db -> select_query($sql, array(':mid' => $_GET['mid'], ':uid' => $_GET['uid']));
 	} elseif (!$pass) {
 		require_once 'template/header.php';
 		echo '<div class="hero-unit">Något gick fel 1!</div>';
 		require_once 'template/footer.php';
-	}
+	} 
 } elseif (!$pass) {
 	require_once 'template/header.php';
 	echo '<div class="hero-unit">Något gick fel!</div>';

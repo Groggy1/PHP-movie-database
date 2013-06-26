@@ -15,6 +15,7 @@ require_once 'class/display.php';
 
 $db = new Database();
 $display = new Display();
+$ar = new ArrayTools();
 
 $sql = "SELECT movies.imdbid, movies.title, movies.year, movies.poster, movies.plot, movies.sub, actors.actor, directors.director, movietype.type, genres.genre, genres.id as genreid
 		FROM movies
@@ -100,9 +101,12 @@ $comments = $db -> select_query($sql, array(':id' => $id));
 $sql = "SELECT userid FROM userviewed
 		WHERE movieid = :id";
 
-$ar = new ArrayTools();
-$viewed = $db -> select_query($sql, array(':id' => $id));
-$viewed = $ar -> unique_flat_array($viewed);
+$viewed = $ar -> unique_flat_array($db -> select_query($sql, array(':id' => $id)));
+
+$sql = "SELECT userid FROM towatch
+		WHERE movieid = :id";
+		
+$towatch = $ar -> unique_flat_array($db -> select_query($sql, array(':id' => $id)));
 
 $sitetitle = $movie['title'] . " (" . $movie['year'] . ")";
 require_once 'template/header.php';
@@ -168,7 +172,7 @@ require_once 'template/header.php';
 				?>
 			</p>
 		</div>
-		<div class="span3">
+		<div class="span2">
 			<h4>Kommentarer</h4>
 			<?php
 			foreach ($comments as $value) {
@@ -189,18 +193,19 @@ require_once 'template/header.php';
 				</button>
 			</form>
 		</div>
-		<div class="span2">
+		<div class="span3">
 			<h4>Betygs&auml;tt filmen!</h4>
+			<table><tr><td>Namn</td><td>Sedd</td><td>Betyg</td><td>Att se</td></tr>
 			<?php
-			foreach ($users as $key => $value) {
-				echo '<p>' . $value['name'];
+			foreach ($users as $key => $value) :
+				echo '<tr><td>' . $value['name'] . '</td><td align="center">';
 				if (in_array($key + 1, $viewed)) {
 					echo ' <i class =" icon-ok"></i>';
 				} else {
 					echo ' <a href="usermovie.php?action=2&uid=' . $value['id'] . '&mid=' . $id . '"><i class =" icon-remove"></i></a>';
 				}
-				echo ' : ';
-				for ($i = 1; $i <= 5; $i++) {
+				echo '</td><td>';
+				for ($i = 1; $i <= 5; $i++) :
 					echo '<a href ="usermovie.php?action=3&uid=' . $value['id'] . '&vote=' . $i . '&mid=' . $id . '"';
 					if ($value['value'] == $i) {
 						echo 'style = "text-decoration:underline;font-weight:bold">';
@@ -208,10 +213,21 @@ require_once 'template/header.php';
 						echo '>';
 					}
 					echo $i . '</a> ';
+				endfor;
+				echo '</td><td align="center">';
+				if (in_array($key + 1, $towatch)) {
+					echo ' <i class =" icon-ok"></i>';
+				} else {
+					if (in_array($key + 1, $viewed)) {
+						echo '<i class =" icon-remove"></i>';
+					} else {
+						echo '<a href="usermovie.php?action=4&uid=' . $value['id'] . '&mid=' . $id . '"><i class =" icon-remove"></i></a>';
+					}
 				}
-				echo '</p>';
-			}
+				echo '</td></tr>';
+			endforeach;
 			?>
+			</table>
 		</div>
 	</div>
 </div>

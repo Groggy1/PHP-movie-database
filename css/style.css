@@ -26,3 +26,170 @@ p {
 textarea, input, select {
 	width: 100%;
 }
+
+.fem {
+	width: 20%;
+}
+
+/*
+ * Bootstrap Grid System without space
+ *
+ * Overwrite Bootstrap grid system, removing margin
+ * Usage : 
+ * Simple add no-space class with row-fluid
+ * <ul class="row-fluid no-space"> ... </ul>
+ */
+.row-fluid.no-space [class*="span"] {
+  margin-left: 0%;
+  *margin-left: -0.06944%;
+}
+.row-fluid.no-space [class*="span"]:first-child {
+  margin-left: 0;
+}
+.row-fluid.no-space .controls-row [class*="span"] + [class*="span"] {
+  margin-left: 0%;
+}
+.row-fluid.no-space .span12 {
+  width: 99.99999999999999%;
+  *width: 99.93055555555554%;
+}
+.row-fluid.no-space .span11 {
+  width: 91.66666666666666%;
+  *width: 91.59722222222221%;
+}
+.row-fluid.no-space .span10 {
+  width: 83.33333333333331%;
+  *width: 83.26388888888887%;
+}
+.row-fluid.no-space .span9 {
+  width: 74.99999999999999%;
+  *width: 74.93055555555554%;
+}
+.row-fluid.no-space .span8 {
+  width: 66.66666666666666%;
+  *width: 66.59722222222221%;
+}
+.row-fluid.no-space .span7 {
+  width: 58.33333333333333%;
+  *width: 58.263888888888886%;
+}
+.row-fluid.no-space .span6 {
+  width: 49.99999999999999%;
+  *width: 49.93055555555555%;
+}
+.row-fluid.no-space .span5 {
+  width: 41.66666666666666%;
+  *width: 41.597222222222214%;
+}
+.row-fluid.no-space .span4 {
+  width: 33.33333333333333%;
+  *width: 33.263888888888886%;
+}
+.row-fluid.no-space .span3 {
+  width: 24.999999999999996%;
+  *width: 24.930555555555554%;
+}
+.row-fluid.no-space .span2 {
+  width: 16.666666666666664%;
+  *width: 16.59722222222222%;
+}
+.row-fluid.no-space .span1 {
+  width: 8.333333333333332%;
+  *width: 8.263888888888888%;
+}
+.row-fluid.no-space .offset12 {
+  margin-left: 99.99999999999999%;
+  *margin-left: 99.8611111111111%;
+}
+.row-fluid.no-space .offset12:first-child {
+  margin-left: 99.99999999999999%;
+  *margin-left: 99.8611111111111%;
+}
+.row-fluid.no-space .offset11 {
+  margin-left: 91.66666666666666%;
+  *margin-left: 91.52777777777777%;
+}
+.row-fluid.no-space .offset11:first-child {
+  margin-left: 91.66666666666666%;
+  *margin-left: 91.52777777777777%;
+}
+.row-fluid.no-space .offset10 {
+  margin-left: 83.33333333333331%;
+  *margin-left: 83.19444444444443%;
+}
+.row-fluid.no-space .offset10:first-child {
+  margin-left: 83.33333333333331%;
+  *margin-left: 83.19444444444443%;
+}
+.row-fluid.no-space .offset9 {
+  margin-left: 74.99999999999999%;
+  *margin-left: 74.8611111111111%;
+}
+.row-fluid.no-space .offset9:first-child {
+  margin-left: 74.99999999999999%;
+  *margin-left: 74.8611111111111%;
+}
+.row-fluid.no-space .offset8 {
+  margin-left: 66.66666666666666%;
+  *margin-left: 66.52777777777777%;
+}
+.row-fluid.no-space .offset8:first-child {
+  margin-left: 66.66666666666666%;
+  *margin-left: 66.52777777777777%;
+}
+.row-fluid.no-space .offset7 {
+  margin-left: 58.33333333333333%;
+  *margin-left: 58.19444444444444%;
+}
+.row-fluid.no-space .offset7:first-child {
+  margin-left: 58.33333333333333%;
+  *margin-left: 58.19444444444444%;
+}
+.row-fluid.no-space .offset6 {
+  margin-left: 49.99999999999999%;
+  *margin-left: 49.86111111111111%;
+}
+.row-fluid.no-space .offset6:first-child {
+  margin-left: 49.99999999999999%;
+  *margin-left: 49.86111111111111%;
+}
+.row-fluid.no-space .offset5 {
+  margin-left: 41.66666666666666%;
+  *margin-left: 41.52777777777777%;
+}
+.row-fluid.no-space .offset5:first-child {
+  margin-left: 41.66666666666666%;
+  *margin-left: 41.52777777777777%;
+}
+.row-fluid.no-space .offset4 {
+  margin-left: 33.33333333333333%;
+  *margin-left: 33.19444444444444%;
+}
+.row-fluid.no-space .offset4:first-child {
+  margin-left: 33.33333333333333%;
+  *margin-left: 33.19444444444444%;
+}
+.row-fluid.no-space .offset3 {
+  margin-left: 24.999999999999996%;
+  *margin-left: 24.86111111111111%;
+}
+.row-fluid.no-space .offset3:first-child {
+  margin-left: 24.999999999999996%;
+  *margin-left: 24.86111111111111%;
+}
+.row-fluid.no-space .offset2 {
+  margin-left: 16.666666666666664%;
+  *margin-left: 16.52777777777778%;
+}
+.row-fluid.no-space .offset2:first-child {
+  margin-left: 16.666666666666664%;
+  *margin-left: 16.52777777777778%;
+}
+.row-fluid.no-space .offset1 {
+  margin-left: 8.333333333333332%;
+  *margin-left: 8.194444444444443%;
+}
+.row-fluid.no-space .offset1:first-child {
+  margin-left: 8.333333333333332%;
+  *margin-left: 8.194444444444443%;
+}
