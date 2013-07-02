@@ -42,7 +42,7 @@ $sitetitle = "Filmvägg";
 require_once 'template/header.php';
 ?>
 <div class="hero-unit">
-	<div class="row-fluid">
+	<div class="row-fluid no-space">
 		<div class="span4">
 			<?php
 			$i = 0;
