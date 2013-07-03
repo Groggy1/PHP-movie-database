@@ -1,0 +1,1 @@
+Här samlas alla filer som mer eller mindre permanent kan användas via cron under ett linuxsystem

@@ -4,15 +4,15 @@ PHP-movie-database is a movie database script written in PHP.
 
 Tested on
 -------------------------
-The script is tested on both a local (virtual) Ubuntu 12.10 server with:
-* PHP 5.4.6
-* MySQL 5.5.29
+The script is tested on both a local (virtual) Ubuntu 13.04 server with:
+* PHP 5.4.9
+* MySQL 5.5.31
 * Apache 2.2.22
 
-and on serversfree.com with:
-* PHP 5.4
-* MySQL 5.1.58
-* Apache 2.2.17
+and on 000webhost.com with:
+* PHP 5.2.17
+* MySQL 5.1
+* Apache 2.2.19
 
 You have to do the following for the script to work:
 -------------------------
