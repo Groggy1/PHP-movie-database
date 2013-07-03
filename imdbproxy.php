@@ -102,6 +102,7 @@ require_once 'template/header.php';
 						<input type="hidden" name="imdbid" value="<?php echo $imdbid; ?>" />
 						<input type="hidden" name="sub" value="<?php echo $_POST['sub']; ?>" />
 						<input type="hidden" name="type" value="<?php echo $_POST['type']; ?>" />
+						<input type="hidden" name="runtime" value="<?php echo $movieArray['runtime']; ?>" />
 						<button class="btn btn-primary" type="submit">
 							L&auml;gg till
 						</button>

@@ -109,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `movies` (
   `poster` varchar(100) NOT NULL,
   `type` varchar(11) NOT NULL,
   `sub` varchar(30) NOT NULL,
+  `runtime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 

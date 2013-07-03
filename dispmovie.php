@@ -17,7 +17,7 @@ $db = new Database();
 $display = new Display();
 $ar = new ArrayTools();
 
-$sql = "SELECT movies.imdbid, movies.title, movies.year, movies.poster, movies.plot, movies.sub, actors.actor, directors.director, movietype.type, genres.genre, genres.id as genreid
+$sql = "SELECT movies.imdbid, movies.runtime, movies.title, movies.year, movies.poster, movies.plot, movies.sub, actors.actor, directors.director, movietype.type, genres.genre, genres.id as genreid
 		FROM movies
 		LEFT JOIN actorsinmovies ON movies.id = actorsinmovies.movie_id
 		LEFT JOIN actors ON actors.id = actorsinmovies.actor_id
@@ -48,6 +48,7 @@ foreach ($result as $key => $value) {
 		$movie['sub'] = ($value['sub']);
 		$movie['type'] = ($value['type']);
 		$movie['imdbid'] = ($value['imdbid']);
+		$movie['runtime'] = ($value['runtime']);
 	}
 	if (!in_array($value['actor'], $movie['actor'])) {
 		$movie['actor'][$i] = ($value['actor']);
@@ -134,12 +135,19 @@ require_once 'template/header.php';
 		?>
 		<strong>Spr&aring;k/texning</strong>:<?php echo $movie['sub']; ?>.
 		<strong>Typ</strong>:<?php echo $movie['type']; ?>
-		<strong>Genomsnittspo&auml;ng</strong>
+		<strong>Genomsnittspo&auml;ng:</strong>
 		<?php
 		if (count($votes) > 0) {
 			echo number_format($averagepoint / $numberofvoters, 1);
+		} else {
+			echo 'Inga röster';
 		}
-	?></p>
+	?>
+	<strong>Speltid:</strong>
+	<?php
+	echo $movie['runtime'].' minuter';
+	?>
+	</p>
 	<div class="row-fluid">
 		<div class="span4">
 			<img src="img/posters/<?php echo $movie['poster']; ?>" />
