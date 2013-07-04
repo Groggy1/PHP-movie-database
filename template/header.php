@@ -33,67 +33,52 @@
 								">
 								<a href="index.php">Hem</a>
 							</li>
-							<li class="
+							<li class="dropdown 
 							<?php
-							if($filname == "allmovies.php" || $filname == "dispmovie.php")
-								echo 'active'
-								?>
-								">
-								<a href="allmovies.php">Alla filmer</a>
+							if($filname == "allmovies.php" || $filname == "dispmovie.php" || $filname == "moviewall.php" || $filname == "search.php" || $filname == "towatch.php"){
+								echo 'active';
+							}
+							?>
+							" id="accountmenu">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">Visa film<b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="allmovies.php">Alla filmer</a></li>
+									<li><a href="moviewall.php">Alla filmer med posters</a></li>
+									<li><a href="search.php">S&ouml;k p&aring; &aring;r/genre</a></li>
+									<li><a href="towatch.php">Filmer att se</a></li>
+                            	</ul>
+                            </li>
+                            <li class="dropdown 
+                            <?php
+							if($filname == "queue.php" || $filname == "addqueue.php" || $filname == "link.php" || $filname == "manproxy.php" || $filname == "imdbproxy.php"){
+								echo 'active';
+							}
+							?>
+                            " id="accountmenu">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">Lägg till film<b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="link.php">L&auml;gg till film</a></li>
+									<li><a href="queue.php">K&ouml;a film</a></li>
+                            	</ul>
+                            </li>
+                            <li class="
+                            <?php
+							if ($filname == "news.php" || $filname == "addnews.php") {
+								echo 'active';
+							}
+                            ?>
+                            ">
+                            <a href="news.php">Nyheter</a>
 							</li>
 							<li class="
 							<?php
-							if($filname == "moviewall.php")
-								echo 'active'
-								?>
-								">
-								<a href="moviewall.php">Alla filmer med posters</a>
+							if ($filname == "stats.php") {
+								echo 'active';
+							}
+							?>
+							">
+							<a href="stats.php">Statistik</a>
 							</li>
-							<li class="
-					<?php
-					if ($filname == "search.php") {
-						echo 'active';
-					}
-						?>
-					">
-						<a href="search.php">S&ouml;k p&aring; &aring;r/genre</a>
-					</li>
-					<li class="
-					<?php
-					if ($filname == "link.php" || $filname == "manproxy.php" || $filname == "imdbproxy.php") {
-						echo 'active';
-					}
-						?>
-					">
-						<a href="link.php">L&auml;gg till film</a>
-					</li>
-					<li class="
-					<?php
-					if ($filname == "queue.php" || $filname == "addqueue.php") {
-						echo 'active';
-					}
-						?>
-					">
-						<a href="queue.php">K&ouml;a film</a>
-					</li>
-					<li class="
-					<?php
-					if ($filname == "towatch.php") {
-						echo 'active';
-					}
-						?>
-					">
-						<a href="towatch.php">Filmer att se</a>
-					</li>
-					<li class="
-					<?php
-					if ($filname == "news.php" || $filname == "addnews.php") {
-						echo 'active';
-					}
-						?>
-					">
-						<a href="news.php">Nyheter</a>
-					</li>
 						</ul>
 					</div><!-- nav-collapse collapse -->
 				</div><!-- container -->

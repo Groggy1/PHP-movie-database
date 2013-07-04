@@ -27,8 +27,9 @@ textarea, input, select {
 	width: 100%;
 }
 
-.fem {
-	width: 20%;
+.dropdown-menu:after {
+    border: none !important;
+    content: "" !important;
 }
 
 /*
