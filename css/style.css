@@ -32,6 +32,27 @@ textarea, input, select {
     content: "" !important;
 }
 
+.login {
+	border-radius: 20px;
+	background-color: #C0C0C0;
+	padding: 10px;
+	position: fixed;
+	width: 300px;
+	min-height: 175px;
+	left: 50%;
+	top: 50%;
+	margin-left: -155px;
+	margin-top: -80px;
+}
+
+.login > hr {
+	height: 1px;
+	border: 0px;
+	font-size:0px;
+	color: #eeeeee;
+	background: #eeeeee;
+}
+
 /*
  * Bootstrap Grid System without space
  *

@@ -79,6 +79,9 @@
 							">
 							<a href="stats.php">Statistik</a>
 							</li>
+							<li>
+							<a href="index.php?logout">Logga ut</a>
+							</li>
 						</ul>
 					</div><!-- nav-collapse collapse -->
 				</div><!-- container -->

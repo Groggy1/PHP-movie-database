@@ -1,8 +1,34 @@
 <?php
 $starting_time_measure = MICROTIME(TRUE);
 require_once 'class/database.php';
-require_once 'class/arraytools.php';
+require_once 'class/Login.php';
 $db = new Database();
+
+$login = new Login($db);
+
+if($login ->isUserLoggedIn() == false) {
+?>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="css/bootstrap.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<link href="css/bootstrap-responsive.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="login">
+			Du är inte inloggad! Gå till <a href="index.php">Startsidan</a> för att logga in.
+		</div>
+	</body>
+</html>
+<?php
+break;
+}
+
+require_once 'class/arraytools.php';
 $ar = new ArrayTools();
 
 if (is_numeric($_REQUEST['mid']) && is_numeric($_REQUEST['uid']) && !empty($_REQUEST['mid']) && !empty($_REQUEST['uid']) && is_numeric($_REQUEST['action']) && isset($_REQUEST['action']) && $_REQUEST['action'] != "4") {

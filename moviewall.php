@@ -1,6 +1,33 @@
 <?php
 $starting_time_measure = MICROTIME(TRUE);
 require_once 'class/database.php';
+require_once 'class/Login.php';
+$db = new Database();
+
+$login = new Login($db);
+
+if($login ->isUserLoggedIn() == false) {
+?>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="css/bootstrap.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<link href="css/bootstrap-responsive.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="login">
+			Du är inte inloggad! Gå till <a href="index.php">Startsidan</a> för att logga in.
+		</div>
+	</body>
+</html>
+<?php
+break;
+}
+
 require_once 'class/arraytools.php';
 
 if (!empty($_REQUEST['p']) && is_numeric($_REQUEST['p'])) {
@@ -11,7 +38,6 @@ if (!empty($_REQUEST['p']) && is_numeric($_REQUEST['p'])) {
 
 $numberofimgperside = 9;
 
-$db = new Database();
 $ar = new ArrayTools();
 
 $sql = "SELECT id, title, poster

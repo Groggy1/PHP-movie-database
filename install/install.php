@@ -5,7 +5,7 @@ $db = new Database();
 //Fixa så data från users.php används för att lägga in användare i users
 $param = array();
 for($i = 0;$i < $_POST['numberusers'];$i++){
-	$param[] = array(':user' => $_POST[$i]);
+	$param[] = array(':user' => $_POST[$i], ':password' => crypt("abc123"));
 }
 
 $sql = "
@@ -190,6 +190,7 @@ CREATE TABLE IF NOT EXISTS `usercomment` (
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(40) NOT NULL,
+  `password` char(130) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
@@ -219,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `uservote` (
 
 $db -> select_query($sql,array(':m' => "Film", ':tvs' => "TV Serie", ':tv' => "TV Film", ':v' => "Video", ':vg' => "Dator spel"));
 
-$sql = "INSERT INTO `users`(`name`) VALUES (:user)";
+$sql = "INSERT INTO `users`(name, password) VALUES (:user, :password)";
 $db -> multi_query($sql,$param);
 
 echo 'Databasen är importerad!';

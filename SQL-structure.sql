@@ -1,18 +1,20 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.8.1deb1
+-- version 4.0.4.1deb0ubuntu1ppa1
 -- http://www.phpmyadmin.net
 --
 -- Värd: localhost
--- Skapad: 18 maj 2013 kl 09:33
+-- Skapad: 16 jul 2013 kl 16:22
 -- Serverversion: 5.5.31-0ubuntu0.13.04.1
--- PHP-version: 5.4.9-4ubuntu2
+-- PHP-version: 5.4.9-4ubuntu2.1
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
 -- Databas: `filmDB`
 --
+CREATE DATABASE IF NOT EXISTS `filmDB` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `filmDB`;
 
 -- --------------------------------------------------------
 
@@ -124,13 +126,6 @@ CREATE TABLE IF NOT EXISTS `movietype` (
   `type` varchar(30) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `movietype` (`short`, `type`) VALUES
-('M', 'Film'),
-('TVS', 'TV Serie'),
-('TV', 'TV Film'),
-('V', 'Video'),
-('VG', 'Dator spel');
-
 -- --------------------------------------------------------
 
 --
@@ -140,7 +135,6 @@ INSERT INTO `movietype` (`short`, `type`) VALUES
 CREATE TABLE IF NOT EXISTS `news` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
   `description` mediumtext NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`id`)
@@ -171,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `towatch` (
   `movieid` int(11) NOT NULL,
   `userid` int(11) NOT NULL,
   `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -186,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `usercomment` (
   `comment` text NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
@@ -197,6 +191,7 @@ CREATE TABLE IF NOT EXISTS `usercomment` (
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(40) NOT NULL,
+  `password` char(130) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
