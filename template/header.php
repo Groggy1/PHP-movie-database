@@ -80,7 +80,7 @@
 							<a href="stats.php">Statistik</a>
 							</li>
 							<li>
-							<a href="index.php?logout">Logga ut</a>
+							<a href="<?php echo $filname.'?logout'; ?>">Logga ut</a>
 							</li>
 						</ul>
 					</div><!-- nav-collapse collapse -->

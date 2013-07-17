@@ -30,7 +30,7 @@ class Login {
 		//If user trued to log out
 		if (isset($_GET["logout"])) {
 			$this -> doLogout();
-		} elseif (!empty($_SESSION['user_name']) && ($_SESSION['user_logged_in'] == 1)) {
+		} elseif (!empty($_SESSION['user_name']) && ($_SESSION['user_logged_in'] == 1) && ($_SESSION['site'] == "filmDB")) {
 			$this -> loginWithSessionData();
 		} elseif (isset($_POST['login'])) {
 			$this -> loginWithPostData();
@@ -55,12 +55,15 @@ class Login {
 				$_SESSION['user_id'] = $checklogin[0]['id'];
 				$_SESSION['user_name'] = $checklogin[0]['name'];
 				$_SESSION['user_logged_in'] = 1;
+				$_SESSION['site'] = "filmDB";
 				
 				$this -> user_id = $checklogin[0]['id'];
 				$this -> user_is_logged_in = true;
 			else:
 				$this->errors[] = "Fel användarnamn eller lösenord";
 			endif;
+		} else {
+			$this -> errors[] = "Användarnamn och/eller lösenord saknas";
 		}
 	}
 
