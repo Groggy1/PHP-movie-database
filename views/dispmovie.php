@@ -142,7 +142,7 @@ require_once 'template/header.php';
 	?>
 	<strong>Speltid:</strong>
 	<?php
-	echo $movie['runtime'].' minuter';
+	echo $movie['runtime'] . ' minuter';
 	?>
 	</p>
 	<div class="row-fluid">
@@ -189,10 +189,10 @@ require_once 'template/header.php';
 		<div class="span3">
 			<h4>Kommentera filmen!</h4>
 			<form class="form-horizontal" name = "input" action = "usermovie.php" method = "post">
-				<?php $display -> dispselectuser($users); ?>
 				<textarea name="comment" rows="10"></textarea>
 				<input type="hidden" name="mid" value="<?php echo $id; ?>" />
 				<input type="hidden" name="action" value="1" />
+				<input type="hidden" name="userid" value="<?php echo $_SESSION['user_id']; ?>" />
 				<button class="btn btn-primary" type="submit">
 					L&auml;gg till kommentar
 				</button>
@@ -206,12 +206,18 @@ require_once 'template/header.php';
 				echo '<tr><td>' . $value['name'] . '</td><td align="center">';
 				if (in_array($key + 1, $viewed)) {
 					echo ' <i class =" icon-ok"></i>';
-				} else {
+				} elseif ($_SESSION['user_id'] == $value['id']) {
 					echo ' <a href="usermovie.php?action=2&uid=' . $value['id'] . '&mid=' . $id . '"><i class =" icon-remove"></i></a>';
+				} else {
+					echo ' <i class =" icon-remove"></i>';
 				}
 				echo '</td><td>';
 				for ($i = 1; $i <= 5; $i++) :
-					echo '<a href ="usermovie.php?action=3&uid=' . $value['id'] . '&vote=' . $i . '&mid=' . $id . '"';
+					if ($_SESSION['user_id'] == $value['id']) {
+						echo '<a href ="usermovie.php?action=3&uid=' . $value['id'] . '&vote=' . $i . '&mid=' . $id . '"';
+					} else {
+						echo '<a ';
+					}
 					if ($value['value'] == $i) {
 						echo 'style = "text-decoration:underline;font-weight:bold">';
 					} else {
@@ -226,7 +232,11 @@ require_once 'template/header.php';
 					if (in_array($key + 1, $viewed)) {
 						echo '<i class =" icon-remove"></i>';
 					} else {
-						echo '<a href="usermovie.php?action=4&uid=' . $value['id'] . '&mid=' . $id . '"><i class =" icon-remove"></i></a>';
+						if ($_SESSION['user_id'] == $value['id']) {
+							echo '<a href="usermovie.php?action=4&uid=' . $value['id'] . '&mid=' . $id . '"><i class =" icon-remove"></i></a>';
+						} else {
+							echo '<i class =" icon-remove"></i>';
+						}
 					}
 				}
 				echo '</td></tr>';

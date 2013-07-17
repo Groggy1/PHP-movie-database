@@ -1,12 +1,4 @@
 <?php
-require_once 'class/display.php';
-
-$display = new Display();
-
-$sql = "SELECT id, name FROM users";
-
-$users = $db -> select_query($sql);
-
 $sql = "SELECT news.description, news.date, users.name FROM `news`
 		JOIN users ON news.userid = users.id
 		ORDER BY news.id DESC";
@@ -29,11 +21,10 @@ require_once ('template/header.php');
 			?>
 		</div>
 		<div class="span3">
-			<h5>L&auml;gg till nyhet</h5>
+			<h4>L&auml;gg till nyhet</h4>
 			<form name = "input" action = "addnews.php" method = "post">
-				<?php $display -> dispselectuser($users); ?>
-				<br />
 				<textarea name="description" rows="10" placeholder="Vad har gjorts?"></textarea>
+				<input name="userid" type="hidden" value="<?php echo $_SESSION['user_id'];?>" />
 				<br />
 				<input type="submit" value="submit" class="btn btn-primary" />
 			</form>

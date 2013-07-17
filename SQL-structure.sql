@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Värd: localhost
--- Skapad: 16 jul 2013 kl 16:22
+-- Skapad: 17 jul 2013 kl 11:45
 -- Serverversion: 5.5.31-0ubuntu0.13.04.1
 -- PHP-version: 5.4.9-4ubuntu2.1
 
@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `usercomment` (
   `comment` text NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
@@ -216,5 +216,6 @@ CREATE TABLE IF NOT EXISTS `userviewed` (
 CREATE TABLE IF NOT EXISTS `uservote` (
   `user_id` int(11) NOT NULL,
   `movie_id` int(11) NOT NULL,
-  `value` int(1) NOT NULL
+  `value` int(1) NOT NULL,
+  `date` date NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;

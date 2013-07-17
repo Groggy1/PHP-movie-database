@@ -216,6 +216,7 @@ CREATE TABLE IF NOT EXISTS `uservote` (
   `user_id` int(11) NOT NULL,
   `movie_id` int(11) NOT NULL,
   `value` int(1) NOT NULL
+  `date` date NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
 
 $db -> select_query($sql,array(':m' => "Film", ':tvs' => "TV Serie", ':tv' => "TV Film", ':v' => "Video", ':vg' => "Dator spel"));

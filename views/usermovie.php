@@ -31,13 +31,13 @@ if (is_numeric($_REQUEST['action']) && isset($_REQUEST['action'])) {
 		$result = $db -> select_query($sql, array(':userid' => $_GET['uid'], ':movieid' => $_GET['mid']));
 
 		if (count($result) == 1) {
-			$sql = "UPDATE `uservote` SET `value`=:vote
+			$sql = "UPDATE `uservote` SET `value`=:vote , `date` = NOW()
 					WHERE `movie_id` = :movieid AND `user_id` = :userid";
 
 			$db -> select_query($sql, array(':vote' => $_GET['vote'], ':movieid' => $_GET['mid'], ':userid' => $_GET['uid']));
 		} else {
-			$sql = "INSERT INTO `uservote`(`user_id`, `movie_id`, `value`)
-					VALUES (:userid,:movieid,:vote)";
+			$sql = "INSERT INTO `uservote`(`user_id`, `movie_id`, `value`, date)
+					VALUES (:userid,:movieid,:vote, NOW())";
 
 			$result = $db -> select_query($sql, array(':vote' => $_GET['vote'], ':movieid' => $_GET['mid'], ':userid' => $_GET['uid']));
 		}
