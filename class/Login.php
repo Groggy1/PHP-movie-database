@@ -32,6 +32,9 @@ class Login {
 			$this -> doLogout();
 		} elseif (!empty($_SESSION['user_name']) && ($_SESSION['user_logged_in'] == 1) && ($_SESSION['site'] == "filmDB")) {
 			$this -> loginWithSessionData();
+			if (isset($_POST['user_change_password'])) {
+				$this -> editUserPassword();
+			}
 		} elseif (isset($_POST['login'])) {
 			$this -> loginWithPostData();
 		}
@@ -44,23 +47,53 @@ class Login {
 		$this -> messages[] = "Du har blivit utloggad";
 	}
 
+	private function editUserPassword() {
+		if (empty($_POST['user_password_old']) || empty($_POST['user_password_new']) || empty($_POST['user_password_new_repeat'])) {
+			$this -> errors[] = "Minst ett fält var tomt!";
+		} elseif ($_POST['user_password_new'] !== $_POST['user_password_new_repeat']) {
+			$this -> errors[] = "Det nya lösenordet och det repeterade är inte samma";
+		} elseif (strlen($_POST['user_password_new']) < 6) {
+			$this -> errors[] = "Lösenordet måste vara minst sex tecken långt";
+		} elseif (!empty($_POST['user_password_old']) && !empty($_POST['user_password_new']) && !empty($_POST['user_password_new_repeat']) && ($_POST['user_password_new'] === $_POST['user_password_new_repeat'])) {
+			//Check if provided password is correct
+			$sql = "SELECT password FROM users
+					WHERE id = :id";
+			$param = array(':id' => $_SESSION['user_id']);
+			$checklogin = $this -> db -> select_query($sql, $param);
+			echo '<pre>';
+			var_dump($checklogin);
+			echo '</pre>';
+			if (sizeof($checklogin) == 1 && crypt($_POST['user_password_old'], $checklogin[0]['password']) == $checklogin[0]['password']) {
+				$this -> user_password_hash = crypt($_POST['user_password_new']);
+				$sql = "UPDATE users SET password = :password WHERE id = :id";
+				echo $this -> user_password_hash . ' $this -> user_password_hash <br>'.$sql.' SQL <br>';
+				$param = array(':id' => $_SESSION['user_id'], ':password' => $this -> user_password_hash);
+				echo '<pre>';
+				var_dump($param);
+				echo '</pre>';
+				$this -> db -> select_query($sql, $param);
+				$this -> messages[] = "Lösenordet byttes!";
+			}
+		}
+	}
+
 	private function loginWithPostData() {
 		// if POST data (from login form) contains non-empty user_name and non-empty user_password
 		if (!empty($_POST['username']) && !empty($_POST['password'])) {
 			$sql = "SELECT id, name, password FROM users
 					WHERE BINARY name = :name";
 			$param = array(':name' => $_POST['username']);
-			$checklogin = $this -> db -> select_query($sql,$param);
-			if(sizeof($checklogin) == 1 && crypt($_POST['password'],$checklogin[0]['password']) == $checklogin[0]['password']):
+			$checklogin = $this -> db -> select_query($sql, $param);
+			if (sizeof($checklogin) == 1 && crypt($_POST['password'], $checklogin[0]['password']) == $checklogin[0]['password']) :
 				$_SESSION['user_id'] = $checklogin[0]['id'];
 				$_SESSION['user_name'] = $checklogin[0]['name'];
 				$_SESSION['user_logged_in'] = 1;
 				$_SESSION['site'] = "filmDB";
-				
+
 				$this -> user_id = $checklogin[0]['id'];
 				$this -> user_is_logged_in = true;
-			else:
-				$this->errors[] = "Fel användarnamn eller lösenord";
+			else :
+				$this -> errors[] = "Fel användarnamn eller lösenord";
 			endif;
 		} else {
 			$this -> errors[] = "Användarnamn och/eller lösenord saknas";
@@ -73,7 +106,7 @@ class Login {
 		// when we called this method (in the constructor)
 		$this -> user_is_logged_in = true;
 	}
-	
+
 	public function isUserLoggedIn() {
 		return $this -> user_is_logged_in;
 	}

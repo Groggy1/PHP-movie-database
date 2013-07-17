@@ -79,6 +79,15 @@
 							">
 							<a href="stats.php">Statistik</a>
 							</li>
+							<li class="
+							<?php
+							if ($filname == "user.php") {
+								echo 'active';
+							}
+							?>
+							">
+							<a href="user.php">Inställningar</a>
+							</li>
 							<li>
 							<a href="<?php echo $filname.'?logout'; ?>">Logga ut</a>
 							</li>
