@@ -21,7 +21,7 @@ You have to do the following for the script to work:
 * Download [PHP IMDb Scraper](http://web3o.blogspot.se/2010/10/php-imdb-scraper-for-new-imdb-template.html), tested with update June 10 - 2013 
  * Copy it to the class/ directory
 * Change MySQL account information in file class/database.php
-* Run the install script located in the install directory, then remove it from the webserver (for safety)
+* Run the install script located in the install directory, then remove it from the webserver (for safety). It will setup the database and creat the users that was defined during installation with password "abc123"
 * When uploaded to your webpage will you need to make the director img/posters/ writable as it is the folder where the posters will be saved by the script
 
 TODO:
