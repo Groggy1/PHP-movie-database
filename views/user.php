@@ -4,10 +4,13 @@ require_once 'template/header.php';
 ?>
 <div class="hero-unit">
 	<div class="row-fluid">
-		<div class="span6">
+		<div class="span4">
 			<p>Det kommer kanske något kul här sen :). Typ lite statistik.</p>
 		</div>
-		<div class="span6">
+		<div class="span4">
+			<p>Det kommer kanske något kul här sen :). Typ lite statistik.</p>
+		</div>
+		<div class="span4">
 			<form class="form-horizontal" name="user_edit_password" action="user.php" method="post">
 				<div class="control-group">
 					<div class="controls">

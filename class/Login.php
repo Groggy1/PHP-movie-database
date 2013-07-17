@@ -60,17 +60,10 @@ class Login {
 					WHERE id = :id";
 			$param = array(':id' => $_SESSION['user_id']);
 			$checklogin = $this -> db -> select_query($sql, $param);
-			echo '<pre>';
-			var_dump($checklogin);
-			echo '</pre>';
 			if (sizeof($checklogin) == 1 && crypt($_POST['user_password_old'], $checklogin[0]['password']) == $checklogin[0]['password']) {
 				$this -> user_password_hash = crypt($_POST['user_password_new']);
 				$sql = "UPDATE users SET password = :password WHERE id = :id";
-				echo $this -> user_password_hash . ' $this -> user_password_hash <br>'.$sql.' SQL <br>';
-				$param = array(':id' => $_SESSION['user_id'], ':password' => $this -> user_password_hash);
-				echo '<pre>';
-				var_dump($param);
-				echo '</pre>';
+				$param = array(':id' => $_SESSION['user_id'], ':password' => ($this -> user_password_hash));
 				$this -> db -> select_query($sql, $param);
 				$this -> messages[] = "Lösenordet byttes!";
 			}
