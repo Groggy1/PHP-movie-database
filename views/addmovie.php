@@ -32,8 +32,8 @@ if (sizeof($count) == 0) {
 	curl_close($ch);
 	fclose($fp);
 
-	$sql = "INSERT INTO movies (imdbid, title, plot, year, poster, type, sub, runtime)
- VALUES(:imdbid, :title, :plot, :year, :path, :type, :sub, :runtime)";
+	$sql = "INSERT INTO movies (imdbid, title, plot, year, poster, type, sub, runtime, date)
+ VALUES(:imdbid, :title, :plot, :year, :path, :type, :sub, :runtime, now())";
 
 	$param = array(':imdbid' => $_POST['imdbid'], ':title' => strip_tags($_POST['title']), ':plot' => strip_tags($_POST['plot']), ':year' => strip_tags($_POST['year']), ':path' => $path, ':type' => strip_tags($_POST['type']), ':sub' => strip_tags($_POST['sub']), ':runtime' => strip_tags($_POST['runtime']));
 
