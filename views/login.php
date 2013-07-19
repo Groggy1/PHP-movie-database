@@ -1,6 +1,11 @@
 <?php
 $filname = pathinfo($_SERVER['PHP_SELF']);
 $filname = $filname['basename'];
+if(is_array($_GET)) {
+	foreach ($_GET as $key => $value) {
+		$filname .= '?' . $key . '=' . $value;
+	}
+}
 ?>
 <!DOCTYPE HTML>
 <html>
