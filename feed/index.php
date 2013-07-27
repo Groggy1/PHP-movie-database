@@ -16,13 +16,13 @@ $sql = "SELECT `id`,`title`,`date` FROM `movies`
 $result = $db -> select_query($sql);
 
 foreach ($result as $value) {
-	$value['date'] .= " +0000";
+	$value['date'] .= " +02:00";
 	echo '
 	<item>
 		<title>'.htmlspecialchars($value['title']).'</title>
 		<description><![CDATA[]]></description> 
 		<link>http://www.groggy1.tk/filmdb/dispmovie.php?id='.$value['id'].'</link>
-		<pubDate>'.date("D, d M Y H:i:s O",strtotime($value['date'])).'</pubDate>
+		<pubDate>'.date("r",strtotime($value['date'])).'</pubDate>
 	</item>';
 }
 echo '</channel>

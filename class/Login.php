@@ -104,10 +104,4 @@ class Login {
 		return $this -> user_is_logged_in;
 	}
 
-	public function query() {
-		echo '<pre>';
-		var_dump($this -> db -> select_query("SELECT * FROM movies LIMIT 1"));
-		echo '</pre>';
-	}
-
 }

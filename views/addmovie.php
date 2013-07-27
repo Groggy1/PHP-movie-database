@@ -156,10 +156,6 @@ if (sizeof($count) == 0) {
 		$directorsparam[] = array(':directorid' => (int)$i, ':movieid' => $mid);
 	}
 
-	echo '<br>directorsparam<pre>';
-	var_dump($directorsparam);
-	echo '</pre>';
-
 	$directorsindb = $ar -> unique_flat_array(array_diff($ar -> flatten_array($directorsindb), $ar -> flatten_array($directorparam)));
 	foreach ($directorsindb as $value) {
 		$directorsparam[] = array(':directorid' => (int)$value, ':movieid' => $mid);

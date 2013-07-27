@@ -165,7 +165,6 @@ pip-log.txt
 ###############################
 # Different files not included#
 ###############################
-sql replace.txt
 img/*
 !img/index.php
 !img/posters/

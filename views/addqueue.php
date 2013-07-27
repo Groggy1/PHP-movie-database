@@ -68,9 +68,6 @@ if (sizeof($result) == 0) {
 	$result = $db -> multi_query($sql, $param);
 
 	foreach ($result as $key => $value) {
-		echo 'value<pre>';
-		var_dump($value);
-		echo '</pre>';
 		echo sizeof($value);
 		if (sizeof($value) == 0) {
 			$insertparam[] = $param[$key];
