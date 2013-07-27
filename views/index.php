@@ -19,7 +19,7 @@ require_once 'template/header.php';
 <div id="carousel" class="carousel slide hero-unit">
 	<div class="carousel-inner">
 		<div class="item active">
-			<div class="row-fluid no-space">
+			<div class="row-fluid">
 				<?php
 				for ($i = 0; $i <= 2; $i++) {
 					echo '<div class="span4"><a href="dispmovie.php?id=' . $movie[$i][id] . '"><img src="img/posters/' . $movie[$i][poster] . '" width = "100%" /></a></div>';
@@ -28,7 +28,7 @@ require_once 'template/header.php';
 			</div>
 		</div>
 		<div class="item">
-			<div class="row-fluid no-space">
+			<div class="row-fluid">
 				<?php
 				for ($i = 3; $i <= 5; $i++) {
 					echo '<div class="span4"><a href="dispmovie.php?id=' . $movie[$i][id] . '"><img src="img/posters/' . $movie[$i][poster] . '" width = "100%" /></a></div>';
