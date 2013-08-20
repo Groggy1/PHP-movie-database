@@ -31,7 +31,7 @@ $numberofactors = array_sum($ar -> unique_flat_array($db -> select_query("SELECT
 $numberofdirectors = array_sum($ar -> unique_flat_array($db -> select_query("SELECT count(*) FROM directors")));
 $numberofgenres = array_sum($ar -> unique_flat_array($db -> select_query("SELECT count(*) FROM genres")));
 $votes = $db -> select_query("SELECT avg(value), count(*) FROM uservote");
-$movieswithoutruntime = array_sum($ar -> unique_flat_array($db -> select_query("SELECT count(id) FROM `movies` WHERE `runtime` = 0 AND imdbid != ''")));
+$movieswithoutruntime = array_sum($ar -> unique_flat_array($db -> select_query("SELECT count(id) FROM `movies` WHERE `runtime` = 0")));
 $subtitle = $db -> select_query("SELECT sub,count(*) FROM movies GROUP BY  sub");
 
 $sitetitle = "Statistik";
