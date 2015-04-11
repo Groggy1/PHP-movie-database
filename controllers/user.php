@@ -24,6 +24,10 @@ class UserController extends BaseController {
 	protected function towatch() {
 		$this -> view -> output($this -> model -> towatch());
 	}
+	
+	protected function recomended() {
+		$this -> view -> output($this -> model -> recomended());
+	}
 
 }
 ?>

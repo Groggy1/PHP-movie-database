@@ -1,5 +1,5 @@
 <?php
-define('URL', 'http://192.168.56.101/PHP-movie_database');
+define('URL', 'http://192.168.56.101/PHP-movie-database/');
 define('DB_FLAG', '');
 define('SITE', 'MOVIEDB');
 define('TITLE', 'FilmDB | ');

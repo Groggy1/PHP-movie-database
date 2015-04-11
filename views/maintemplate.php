@@ -58,6 +58,9 @@ $url = $viewModel -> get('urlValues');
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Användare <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li>
+									<a href="<?php echo URL; ?>user/recomended">Rekomendationer</a>
+								</li>
+								<li>
 									<a href="<?php echo URL; ?>user/towatch">Filmer att se</a>
 								</li>
 							</ul>
