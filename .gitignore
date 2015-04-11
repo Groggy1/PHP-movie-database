@@ -165,14 +165,6 @@ pip-log.txt
 ###############################
 # Different files not included#
 ###############################
-img/*
-!img/index.php
-!img/posters/
-!img/bg.png
-img/posters/*
-!img/posters/index.php
-css/*
-!css/style.css
-!css/index.php
-js/
+public/img/posters/*
+!public/img/posters/index.php
 class/imdb.php
