@@ -44,6 +44,7 @@
 				<label class="control-label" for="inputTyp">Typ:</label>
 				<div class="controls">
 					<select name="type">
+						<option></option>
 						<?php
 						foreach ($viewModel -> get('types') as $key => $value) {
 							echo '<option value="' . $key . '"';
@@ -54,6 +55,31 @@
 						}
 						?>
 					</select>
+				</div>
+			</div>
+			<div class="row nospace">
+				<div class="control-group col-md-6">
+					<label class="control-label" for="inputTyp">Serie:</label>
+					<div class="controls">
+						<select name="series">
+							<option></option>
+							<?php
+							foreach ($viewModel -> get('series') as $value) {
+								echo '<option value="' . $value["id"] . '"';
+								if ($value["name"] == $viewModel -> get('theSerie')) {
+									echo ' selected="selected"';
+								}
+								echo '>' . $value["name"] . '</option>';
+							}
+							?>
+						</select>
+					</div>
+				</div>
+				<div class="control-group col-md-6">
+					<label class="control-label" for="inputTyp">Nummer:</label>
+					<div class="controls">
+						<input value="<?= $viewModel -> get('number'); ?>" name="number" />
+					</div>
 				</div>
 			</div>
 		</div>

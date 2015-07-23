@@ -30,7 +30,6 @@ class MovieController extends BaseController {
 	}
 
 	protected function edit() {
-		$this -> model -> set('submit', $_POST['submit']);
 		$this -> view -> output($this -> model -> edit());
 	}
 
@@ -65,6 +64,7 @@ class MovieController extends BaseController {
 	}
 
 	protected function makeedit() {
+		$this -> model -> set('submit', $_POST['submit']);
 		$this -> view -> output($this -> model -> makeedit());
 	}
 

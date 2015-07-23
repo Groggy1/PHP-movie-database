@@ -162,7 +162,7 @@ class MovieModel extends BaseModel {
 		$id = $this -> urlValues['id'];
 		$ar = new ArrayTools();
 
-		$sql = "SELECT movies.youtube, movies.imdbid, movies.runtime, movies.title, movies.year, movies.poster, movies.plot, movies.sub, group_concat(DISTINCT concat(actors.id,',',actors.actor) separator '|') AS actor, group_concat(DISTINCT concat(directors.id,',',directors.director) separator '|') AS director, movietype.type, group_concat(DISTINCT concat(genres.id,',',genres.genre) separator '|') AS genre
+		$sql = "SELECT movies.youtube, movies.imdbid, movies.runtime, movies.title, movies.year, movies.poster, movies.plot, movies.sub, group_concat(DISTINCT concat(actors.id,',',actors.actor) separator '|') AS actor, group_concat(DISTINCT concat(directors.id,',',directors.director) separator '|') AS director, movietype.type, group_concat(DISTINCT concat(genres.id,',',genres.genre) separator '|') AS genre, series.name AS seriesname, series.id AS seriesid
 				FROM movies
 				LEFT JOIN actorsinmovies ON movies.id = actorsinmovies.movie_id
 				LEFT JOIN actors ON actors.id = actorsinmovies.actor_id
@@ -171,6 +171,8 @@ class MovieModel extends BaseModel {
 				LEFT JOIN movietype ON movies.type = movietype.short
 				LEFT JOIN genresinmovies ON movies.id = genresinmovies.movie_id
 				LEFT JOIN genres ON genresinmovies.genre_id = genres.id
+                LEFT JOIN moviesinseries ON movies.id = moviesinseries.movieID
+                LEFT JOIN series ON moviesinseries.seriesID = series.id
 				WHERE movies.id = :id
 				GROUP BY movies.id";
 
@@ -259,6 +261,8 @@ class MovieModel extends BaseModel {
 		$this -> viewModel -> set('betygHead', array('Namn', 'Sedd', 'Betyg', 'Att se'));
 		$this -> viewModel -> set('betygBody', $usertable);
 		$this -> viewModel -> set('avgPoints', number_format($averagepoint / $numberofvoters, 1));
+		$this -> viewModel -> set('seriesid', $result['seriesid']);
+		$this -> viewModel -> set('seriesname', $result['seriesname']);
 		$this -> viewModel -> set('imdbid', $result['imdbid']);
 		$this -> viewModel -> set('runtime', $result['runtime']);
 		$this -> viewModel -> set('title', $result['title']);
@@ -348,12 +352,10 @@ class MovieModel extends BaseModel {
 	}
 
 	public function edit() {
-		$post = $this -> submit;
-		if (is_null($post)) {
-			$id = $this -> urlValues['id'];
-			$ar = new ArrayTools();
+		$id = $this -> urlValues['id'];
+		$ar = new ArrayTools();
 
-			$sql = "SELECT movies.youtube, movies.imdbid, movies.runtime, movies.title, movies.year, movies.poster, movies.plot, movies.sub, group_concat(DISTINCT concat(actors.id,',',actors.actor) separator '|') AS actor, group_concat(DISTINCT concat(directors.id,',',directors.director) separator '|') AS director, movietype.type, group_concat(DISTINCT concat(genres.id,',',genres.genre) separator '|') AS genre
+		$sql = "SELECT movies.youtube, movies.imdbid, movies.runtime, movies.title, movies.year, movies.poster, movies.plot, movies.sub, group_concat(DISTINCT concat(actors.id,',',actors.actor) separator '|') AS actor, group_concat(DISTINCT concat(directors.id,',',directors.director) separator '|') AS director, movietype.type, group_concat(DISTINCT concat(genres.id,',',genres.genre) separator '|') AS genre
 				FROM movies
 				LEFT JOIN actorsinmovies ON movies.id = actorsinmovies.movie_id
 				LEFT JOIN actors ON actors.id = actorsinmovies.actor_id
@@ -365,27 +367,30 @@ class MovieModel extends BaseModel {
 				WHERE movies.id = :id
 				GROUP BY movies.id";
 
-			$result = $this -> db -> select_query($sql, array(':id' => $id));
-			$result = $result[0];
+		$result = $this -> db -> select_query($sql, array(':id' => $id));
+		$result = $result[0];
 
-			$types = $this -> db -> select_query("SELECT short, type FROM movietype");
-			foreach ($types as $value) {
-				$types2[$value['short']] = $value['type'];
-			}
-			$actors = $this -> db -> select_query("SELECT id,actor FROM actors");
-			foreach ($actors as $value) {
-				$actors2[$value['id']] = $value['actor'];
-			}
-
-			$comments = $this -> db -> select_query("SELECT `comment`,`id` FROM `usercomment` WHERE `userid` = :uid AND `movieid` = :mid ORDER BY `id` DESC", array(':uid' => $_SESSION['user_id'], ':mid' => $id));
+		$types = $this -> db -> select_query("SELECT short, type FROM movietype");
+		foreach ($types as $value) {
+			$types2[$value['short']] = $value['type'];
+		}
+		$actors = $this -> db -> select_query("SELECT id,actor FROM actors");
+		foreach ($actors as $value) {
+			$actors2[$value['id']] = $value['actor'];
 		}
 
-		/*
-		 echo '<pre>';
-		 var_dump($comments);
-		 echo '</pre>';
-		 */
+		$comments = $this -> db -> select_query("SELECT `comment`,`id` FROM `usercomment` WHERE `userid` = :uid AND `movieid` = :mid ORDER BY `id` DESC", array(':uid' => $_SESSION['user_id'], ':mid' => $id));
 
+		$sql = "SELECT series.name,  moviesinseries.number FROM moviesinseries
+					JOIN series ON moviesinseries.seriesID = series.id
+					WHERE moviesinseries.movieID = :id";
+		$serie = $this -> db -> select_query($sql, array(":id" => $id));
+
+		$series = $this -> db -> select_query("SELECT series.id, series.name FROM series");
+
+		$this -> viewModel -> set('series', $series);
+		$this -> viewModel -> set('number', $serie[0]["number"]);
+		$this -> viewModel -> set('theSerie', $serie[0]["name"]);
 		$this -> viewModel -> set('comments', $comments);
 		$this -> viewModel -> set('actors', $actors2);
 		$this -> viewModel -> set('types', $types2);
@@ -728,7 +733,19 @@ class MovieModel extends BaseModel {
 	}
 
 	public function makeedit() {
-		if (isset($_POST['submit'])) {
+		$id = $this -> urlValues['id'];
+		$post = $this -> submit;
+		if (isset($post)) {
+			if (is_numeric($_POST['series'])) {
+				$movieinserie = $this -> db -> select_query("SELECT seriesID FROM `moviesinseries` WHERE movieID = :id", array(":id" => $id));
+				if ($movieinserie[0]["seriesID"] == NULL) {
+					$this -> db -> select_query("INSERT INTO `moviesinseries`(`movieID`, `seriesID`, `number`) VALUES (:mid,:sid,:number)", array(":mid" => $id, ":sid" => $_POST["series"], ":number" => $_POST["number"]));
+				} elseif ($movieinserie[0]["seriesID"] != $_POST["series"]) {
+					$this -> db -> select_query("UPDATE `moviesinseries` SET `seriesID`=:sid,`number`=:number WHERE movieID = :mid", array(":mid" => $id, ":sid" => $_POST["series"], ":number" => $_POST["number"]));
+				}
+			} else {
+				$this -> db -> select_query("DELETE FROM `moviesinseries` WHERE movieID = :id", array(":id" => $id));
+			}
 			$url = $_POST['poster'];
 			if (substr($url, 0, 4) == "http") {
 				$imgtitle = basename($url);
@@ -743,7 +760,7 @@ class MovieModel extends BaseModel {
 				$url = $path;
 			}
 			$sql = "UPDATE `movies` SET `poster` = :poster, `imdbid`=:imdb,`title`=:title,`plot`=:plot,`year`=:year,`type`=:type,`sub`=:sub,`runtime`=:runtime,`youtube`=:youtube WHERE id = :id";
-			$param = array(':poster' => $url, ':imdb' => $_REQUEST['imdbid'], ':title' => $_REQUEST['title'], ':plot' => strip_tags($_REQUEST['plot']), ':year' => $_REQUEST['year'], ':type' => $_REQUEST['type'], ':sub' => $_REQUEST['sub'], ':runtime' => $_REQUEST['runtime'], ':youtube' => $_REQUEST['youtube'], ':id' => $_REQUEST['id']);
+			$param = array(':poster' => $url, ':imdb' => $_REQUEST['imdbid'], ':title' => $_REQUEST['title'], ':plot' => strip_tags($_REQUEST['plot']), ':year' => $_REQUEST['year'], ':type' => $_REQUEST['type'], ':sub' => $_REQUEST['sub'], ':runtime' => $_REQUEST['runtime'], ':youtube' => $_REQUEST['youtube'], ':id' => $id);
 			$this -> db -> select_query($sql, $param);
 			header('location:' . URL . $_REQUEST['controller'] . '/display/' . $_REQUEST['id']);
 		}
