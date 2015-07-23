@@ -65,6 +65,17 @@ $url = $viewModel -> get('urlValues');
 								</li>
 							</ul>
 						</li>
+						<li class="dropdown<?php echo($url['controller'] == "series" ? ' active' : ''); ?>">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Filmserier <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="<?php echo URL; ?>series/index">Alla filmserier</a>
+								</li>
+								<li>
+									<a href="<?php echo URL; ?>series/create">Skapa filmserie</a>
+								</li>
+							</ul>
+						</li>
 					</ul>
 					<?php
 					Session::init();

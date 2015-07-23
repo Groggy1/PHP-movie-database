@@ -17,17 +17,22 @@ if (!empty($imdbid)) {
 		<br />
 		<small><strong>Poäng:</strong> <?= $viewModel -> get('avgPoints') ?>
 			av 5.0 möjliga</small></h1><strong>Genres:</strong><?php $genre = explode('|', $viewModel -> get('genre'));
-			foreach ($genre AS $value) {
-				$value2 = explode(',', $value);
-				echo '<a href="' . URL . 'movie/index/g' . $value2[0] . '">' . $value2[1] . '</a>';
-				if (end($genre) !== $value) {
-					echo ', ';
+				foreach ($genre AS $value) {
+					$value2 = explode(',', $value);
+					echo '<a href="' . URL . 'movie/index/g' . $value2[0] . '">' . $value2[1] . '</a>';
+					if (end($genre) !== $value) {
+						echo ', ';
+					}
 				}
-			}
 		?>
 		<strong>Spr&aring;k/texning:</strong><?= $viewModel -> get('sub') ?>
 		<strong>Typ:</strong><?= $viewModel -> get('type') ?>
 		<strong>Speltid:</strong><?php echo $viewModel -> get('runtime') . ' minuter'; ?>
+		<?php
+			if ($viewModel -> get('seriesid') != null) {
+				echo '<strong>Filmserie:</strong><a href="' . URL . 'series/display/' . $viewModel -> get('seriesid') . '">' . $viewModel -> get('seriesname') . '</a>';
+			}
+		?>
 	</div>
 	<div class="row">
 		<div class="col-md-4">
