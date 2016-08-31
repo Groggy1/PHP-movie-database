@@ -17,7 +17,8 @@
 				<label for="inputPoster" class="col-sm-3 control-label">Poster</label>
 				<div class="col-sm-9">
 					<input class="form-control" type="text" name="poster" placeholder="Poster" value="<?php echo $viewModel -> get('poster'); ?>" />
-					<a href="<?php echo URL . "imgdl.php?url=" . $viewModel -> get(posterURL) . "&path=" . $viewModel -> get(poster);?>" target="_blank">Hämta poster</a>
+					<input class="form-control" type="text" name="posterurl" placeholder="Poster" value="<?php echo $viewModel -> get(posterURL); ?>" />
+					<!--<a href="<?php echo URL . "imgdl.php?url=" . $viewModel -> get(posterURL) . "&path=" . $viewModel -> get(poster);?>" target="_blank">Hämta poster</a>-->
 				</div>
 			</div>
 			<div class="form-group">

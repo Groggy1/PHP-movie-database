@@ -1,7 +1,7 @@
 <?php
 /*
  * Project: Nathan MVC
- * File: /controllers/movie.php
+ * File: /controllers/home.php
  * Purpose: controller for the home of the app.
  * Author: Nathan Davison
  */
@@ -39,6 +39,10 @@ class MovieController extends BaseController {
 
 	protected function towatch() {
 		$this -> view -> output($this -> model -> towatch());
+	}
+
+	protected function towatchagain() {
+		$this -> view -> output($this -> model -> towatchagain());
 	}
 
 	protected function viewed() {
@@ -101,6 +105,5 @@ class MovieController extends BaseController {
 	protected function stat() {
 		$this -> view -> output($this -> model -> stat());
 	}
-
 }
 ?>

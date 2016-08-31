@@ -11,10 +11,10 @@ The script is tested on both a local Rasbian server with:
 * MySQL 5.5.41
 * Apache 2.2.22
 
-and on mebo.se with:
-* PHP 5.4.37
-* MySQL 5.5.40
-* Apache 2.4.12
+and on a Ubuntu VPS with:
+* PHP 7.0.8
+* MySQL 5.7.13
+* Apache 2.4.18
 
 You have to do the following for the script to work:
 -------------------------

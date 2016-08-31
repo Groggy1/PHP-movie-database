@@ -11,7 +11,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Imdb
-{	
+{
 	// Get movie information by Movie Title.
 	// This method searches the given title on Google, Bing or Ask to get the best possible match.
 	public function getMovieInfo($title, $getExtraInfo = true)
@@ -24,7 +24,7 @@ class Imdb
 		}
 		return $this->getMovieInfoById($imdbId, $getExtraInfo);
 	}
-	
+
 	// Get movie information by IMDb Id.
 	public function getMovieInfoById($imdbId, $getExtraInfo = true)
 	{
@@ -32,7 +32,7 @@ class Imdb
 		$imdbUrl = "http://www.imdb.com/title/" . trim($imdbId) . "/";
 		return $this->scrapeMovieInfo($imdbUrl, $getExtraInfo);
 	}
-	
+
 	// Scrape movie information from IMDb page and return results in an array.
 	private function scrapeMovieInfo($imdbUrl, $getExtraInfo = true)
 	{
@@ -83,7 +83,7 @@ class Imdb
 		$arr['votes'] = $this->match('/>([0-9,]*) votes</ms', $html, 1);
 		$arr['language'] = $this->match_all('/<a.*?>(.*?)<\/a>/ms', $this->match('/Language.?:(.*?)(<\/div>|>.?and )/ms', $html, 1), 1);
         	$arr['country'] = $this->match_all('/<a.*?>(.*?)<\/a>/ms', $this->match('/Country:(.*?)(<\/div>|>.?and )/ms', $html, 1), 1);
-        
+
 		if($getExtraInfo == true) {
 			$plotPageHtml = $this->geturl("${imdbUrl}plotsummary");
 			$arr['storyline'] = trim(strip_tags($this->match('/<li class="odd">.*?<p>(.*?)(<|<\/p>)/ms', $plotPageHtml, 1)));
@@ -94,10 +94,10 @@ class Imdb
 			$arr['media_images'] = $this->getMediaImages($arr['title_id']);
 			$arr['videos'] = $this->getVideos($arr['title_id']);
 		}
-		
+
 		return $arr;
 	}
-	
+
 	// Scan all Release Dates.
 	private function getReleaseDates($html){
 		$releaseDates = array();
@@ -142,7 +142,7 @@ class Imdb
 		}
 		return array_filter($pics);
 	}
-	
+
 	// Get recommended titles by IMDb title id.
 	public function getRecommendedTitles($titleId){
 		$json = $this->geturl("http://www.imdb.com/widget/recommendations/_ajax/get_more_recs?specs=p13nsims%3A${titleId}");
@@ -156,7 +156,7 @@ class Imdb
 		}
 		return array_filter($arr);
 	}
-	
+
 	// Get all Videos and Trailers
 	public function getVideos($titleId){
 		$html = $this->geturl("http://www.imdb.com/title/${titleId}/videogallery");
@@ -166,7 +166,7 @@ class Imdb
 		}
 		return array_filter($videos);
 	}
-	
+
 	// Get Top 250 Movie List
 	public function getTop250(){
 		$html = $this->geturl("http://www.imdb.com/chart/top");
@@ -204,7 +204,7 @@ class Imdb
 		else
 			return $ids[0]; //return first IMDb result
 	}
-	
+
 	private function geturl($url){
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -226,7 +226,7 @@ class Imdb
 		}
 		return $arr;
 	}
-	
+
 	private function match_all($regex, $str, $i = 0){
 		if(preg_match_all($regex, $str, $matches) === false)
 			return false;

@@ -24,11 +24,10 @@ class LoginModel extends BaseModel {
 			$checklogin = $this -> db -> select_query($sql, $param);
 			if (count($checklogin) == 1) {
 				if (crypt($_POST['password'], $checklogin[0]['password']) == $checklogin[0]['password']) {
-					Session::init();
-					Session::set('user_id', $checklogin[0]['id']);
-					Session::set('user_name', $checklogin[0]['name']);
-					Session::set('user_logged_in', 1);
-					Session::set('site', SITE);
+					$_SESSION["user_id"] = $checklogin[0]['id'];
+					$_SESSION["user_name"] = $checklogin[0]['name'];
+					$_SESSION["user_logged_in"] = 1;
+					$_SESSION["site"] = SITE;
 					header('location: ' . $_POST['path']);
 				} else {
 					$this -> viewModel -> set('error[]', 'Fel användare/lösenord');
@@ -43,8 +42,7 @@ class LoginModel extends BaseModel {
 	}
 
 	public Function logout() {
-		Session::init();
-		Session::destroy();
+		session_destroy();
 		header('location: ' . URL);
 	}
 

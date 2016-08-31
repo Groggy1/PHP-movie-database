@@ -1,7 +1,7 @@
 <?php
 /*
  * Project: Nathan MVC
- * File: /models/movie.php
+ * File: /models/home.php
  * Purpose: model for the home controller.
  * Author: Nathan Davison
  */
@@ -10,6 +10,7 @@ class MovieModel extends BaseModel {
 	//data passed to the home index view
 	public function index() {
 		$ar = new ArrayTools();
+
 		foreach ($this -> urlValues AS $key => $value) {
 			if (substr($key, 0, 2) == 'id') {
 				$glink .= $value . '/';
@@ -37,17 +38,6 @@ class MovieModel extends BaseModel {
 		$alink = rtrim($alink, '/');
 		$dlink = rtrim($dlink, '/');
 
-		//$year = (substr($this -> urlValues['id'], 0, 1) == 'y') ? substr($this -> urlValues['id'], 1) : substr($this -> urlValues['id2'], 1);
-		//$genre = (substr($this -> urlValues['id'], 0, 1) == 'g') ? substr($this -> urlValues['id'], 1) : substr($this -> urlValues['id2'], 1);
-
-		/*
-		 * select movies.id AS id,movies.title AS title,movies.year AS year,group_concat(`genres`.`id` separator ',') AS `genreid`,group_concat(concat(genres.id,':',genres.genre) separator '|') AS genre from movies
-		 * join genresinmovies on movies.id = genresinmovies.movie_id
-		 * join genres on genresinmovies.genre_id = genres.id
-		 * group by movies.id
-		 * order by movies.title,genres.genre
-		 */
-
 		$param = array();
 		$SQL = "SELECT allMovies.id, allMovies.title, allMovies.year, allMovies.genre";
 		if (strlen($actor) > 0 && strlen($director) == 0) {
@@ -56,14 +46,6 @@ class MovieModel extends BaseModel {
 			$SQL .= ", group_concat(DISTINCT concat(actors.id,':',actors.actor) separator '|') AS actors";
 		}
 		$SQL .= " FROM allMovies";
-
-		/*
-		 * För actor och director
-		 * SELECT id, title, year, genre, genreid FROM allMovies
-		 * JOIN actorsinmovies ON allMovies.id = actorsinmovies.movie_id
-		 * JOIN directorsinmovies ON directorsinmovies.movie_id = allMovies.id
-		 * WHERE actorsinmovies.actor_id = 27 AND directorsinmovies.director_id = 3
-		 */
 
 		if (strlen($actor) > 0 || strlen($director) > 0) {
 			$SQL .= " JOIN actorsinmovies ON allMovies.id = actorsinmovies.movie_id
@@ -93,28 +75,8 @@ class MovieModel extends BaseModel {
 		}
 		$SQL .= " 1=1 GROUP BY allMovies.id ORDER BY allMovies.title ";
 
-		/*
-		 if (strlen($genre) > 0 && strlen($year) > 0) {
-		 $SQL .= " HAVING (genreid LIKE :genre1 OR genreid LIKE :genre2 OR genreid LIKE :genre3) AND year = :year";
-		 $param = array(':genre1' => '%,' . $genre . ',%', ':genre2' => $genre . ',%', ':genre3' => '%,' . $genre, ':year' => $year);
-		 } elseif (strlen($genre) > 0) {
-		 $SQL .= " HAVING (genreid LIKE :genre1 OR genreid LIKE :genre2 OR genreid LIKE :genre3)";
-		 $param = array(':genre1' => '%,' . $genre . ',%', ':genre2' => $genre . ',%', ':genre3' => '%,' . $genre);
-		 } elseif (strlen($year) > 0) {
-		 $SQL .= " HAVING year = :year";
-		 $param = array(':year' => $year);
-		 }
-		 */
-
-		//echo $SQL . '<br>';
-		//var_dump();
-
 		$result = $this -> db -> select_query($SQL, $param);
-		/*
-		 echo '<pre>';
-		 var_dump($result);
-		 echo '</pre>';
-		 */
+
 		$i = 0;
 		foreach ($result AS $value) {
 			$actors[] = explode('|', $value['actors']);
@@ -220,45 +182,65 @@ class MovieModel extends BaseModel {
 
 		$comments = $this -> db -> select_query($sql, array(':id' => $id));
 
+		$sql = "SELECT userid FROM towatchagain WHERE movieid = :id";
+		$watchagain = $ar -> unique_flat_array($this -> db -> select_query($sql, array(':id' => $id)));
+
 		foreach ($users as $key => $value) {
 			$usertable[$key][0] = $value['name'];
+
 			if (in_array($key + 1, $viewed)) {
-				$usertable[$key][2] .= '<span class="glyphicon glyphicon-ok"></span>';
+				$usertable[$key][1] .= '<span class="glyphicon glyphicon-ok"></span>';
 			} else {
 				if ($_SESSION['user_id'] == $key + 1) {
-					$usertable[$key][2] .= '<a href="' . URL . 'movie/viewed/' . $id . '" class="glyphicon glyphicon-remove"></a>';
+					$usertable[$key][1] .= '<a href="' . URL . 'movie/viewed/' . $id . '" class="glyphicon glyphicon-remove"></a>';
 				} else {
-					$usertable[$key][2] .= '<a class="glyphicon glyphicon-remove novote"></a>';
+					$usertable[$key][1] .= '<a class="glyphicon glyphicon-remove novote"></a>';
 				}
 			}
+
 			for ($i = 1; $i <= 5; $i++) {
 				if ($value['value'] == $i) {
-					$usertable[$key][3] .= '<a class="vote">' . $i . '</a> ';
+					$usertable[$key][2] .= '<a class="vote">' . $i . '</a> ';
 				} else {
 					if ($_SESSION['user_id'] == $key + 1) {
-						$usertable[$key][3] .= '<a href="' . URL . 'movie/vote/' . $id . '/' . $i . '">' . $i . '</a> ';
+						$usertable[$key][2] .= '<a href="' . URL . 'movie/vote/' . $id . '/' . $i . '">' . $i . '</a> ';
 					} else {
-						$usertable[$key][3] .= '<a class="novote">' . $i . '</a> ';
+						$usertable[$key][2] .= '<a class="novote">' . $i . '</a> ';
 					}
 				}
 			}
+
 			if (in_array($key + 1, $towatch)) {
-				$usertable[$key][4] .= '<span class="glyphicon glyphicon-ok"></span>';
+				$usertable[$key][3] .= '<span class="glyphicon glyphicon-ok"></span>';
 			} else {
 				if ($_SESSION['user_id'] == $key + 1) {
 					if (!in_array($_SESSION['user_id'], $viewed)) {
-						$usertable[$key][4] .= '<a href="' . URL . 'movie/towatch/' . $id . '" class="glyphicon glyphicon-remove"></a>';
+						$usertable[$key][3] .= '<a href="' . URL . 'movie/towatch/' . $id . '" class="glyphicon glyphicon-remove"></a>';
 					} else {
-						$usertable[$key][4] .= '<a class="glyphicon glyphicon-remove novote"></a>';
+						$usertable[$key][3] .= '<a class="glyphicon glyphicon-remove novote"></a>';
 					}
 				} else {
-					$usertable[$key][4] .= '<a class="glyphicon glyphicon-remove novote"></a>';
+					$usertable[$key][3] .= '<a class="glyphicon glyphicon-remove novote"></a>';
 				}
+			}
+
+			if (in_array($key + 1, $viewed)) {
+				if(in_array($key + 1, $watchagain) && $_SESSION['user_id'] == $key + 1) {
+					$usertable[$key][4] .= '<a href="' . URL . 'movie/towatchagain/watched/' . $id . '" class="glyphicon glyphicon-ok"></a>';
+				} elseif ($_SESSION['user_id'] == $key + 1) {
+					$usertable[$key][4] .= '<a href="' . URL . 'movie/towatchagain/again/' . $id . '" class="glyphicon glyphicon-remove"></a>';
+				} elseif (in_array($key + 1, $watchagain)) {
+					$usertable[$key][4] .= '<span class="glyphicon glyphicon-ok"></span>';
+				} else {
+					$usertable[$key][4] .= '<span class="glyphicon glyphicon-remove"></span>';
+				}
+			} else {
+				$usertable[$key][4] .= '<span class="glyphicon glyphicon-remove"></span>';
 			}
 		}
 
 		$this -> viewModel -> set('comments', $comments);
-		$this -> viewModel -> set('betygHead', array('Namn', 'Sedd', 'Betyg', 'Att se'));
+		$this -> viewModel -> set('betygHead', array('Namn', 'Sedd', 'Betyg', 'Att se', 'Se igen'));
 		$this -> viewModel -> set('betygBody', $usertable);
 		$this -> viewModel -> set('avgPoints', number_format($averagepoint / $numberofvoters, 1));
 		$this -> viewModel -> set('seriesid', $result['seriesid']);
@@ -316,6 +298,11 @@ class MovieModel extends BaseModel {
 
 				$this -> db -> select_query($sql, $param);
 			}
+
+			$sql = "DELETE FROM `towatchagain` WHERE `movieid`=:mid AND `userid`=:uid";
+			$param = array(':mid' => $url['id'], ':uid' => $_SESSION['user_id']);
+			$this -> db -> select_query($sql, $param);
+
 			header('location:' . URL . 'movie/display/' . $url['id']);
 		}
 		$this -> viewModel -> set('urlValues', $this -> urlValues);
@@ -326,11 +313,30 @@ class MovieModel extends BaseModel {
 	public function towatch() {
 		$url = filter_var_array($this -> urlValues, FILTER_VALIDATE_INT);
 		if ($url['id']) {
-			$sql = "INSERT INTO towatch(movieid, userid, date) 
+			$sql = "INSERT INTO towatch(movieid, userid, date)
 					VALUES (:mid,:uid,now())";
 			$param = array(':mid' => $url['id'], ':uid' => $_SESSION['user_id']);
 			$this -> db -> select_query($sql, $param);
 			header('location:' . URL . 'movie/display/' . $url['id']);
+		}
+		$this -> viewModel -> set('urlValues', $this -> urlValues);
+		$this -> viewModel -> set('pageTitle', TITLE . 'Fel!');
+		return $this -> viewModel;
+	}
+
+	public function towatchagain() {
+		$url = $this -> urlValues;
+		if ($url['id'] && $url['id'] == "again") {
+			$sql = "INSERT INTO towatchagain(movieid, userid, added)
+					VALUES (:mid,:uid,now())";
+			$param = array(':mid' => $url['id2'], ':uid' => $_SESSION['user_id']);
+			$this -> db -> select_query($sql, $param);
+			header('location:' . URL . 'movie/display/' . $url['id2']);
+		} elseif ($url['id']) {
+			$sql = "DELETE FROM `towatchagain` WHERE `movieid`=:mid AND `userid`=:uid";
+			$param = array(':mid' => $url['id2'], ':uid' => $_SESSION['user_id']);
+			$this -> db -> select_query($sql, $param);
+			header('location:' . URL . 'movie/display/' . $url['id2']);
 		}
 		$this -> viewModel -> set('urlValues', $this -> urlValues);
 		$this -> viewModel -> set('pageTitle', TITLE . 'Fel!');
@@ -448,37 +454,12 @@ class MovieModel extends BaseModel {
 		$getPrew = 'href="' . URL . $this -> urlValues['controller'] . '/' . $this -> urlValues['action'] . '/' . ($id - 1) . '" ' . $classone;
 		$getNext = 'href="' . URL . $this -> urlValues['controller'] . '/' . $this -> urlValues['action'] . '/' . ($id + 1) . '"' . $classtwo;
 
-		/*
-		 for ($i = $lover; $i <= $upper; $i++) {
-		 $pagination .= '<li' . ((int)$url['id'] == $i ? ' class="active' : '') . '><a href="' . URL . $this -> urlValues['controller'] . '/' . $this -> urlValues['action'] . '/' . $i . '"><span>' . $i . '<span class="sr-only">(current)</span></span></a></li>';
-		 }
-		 */
-
 		$row = 1;
 		foreach ($result as $key => $value) {
 			if ($key == 3 || $key == 6)
 				$row++;
 			$posters[$row] .= '<a href="' . URL . 'movie/display/' . $value['id'] . '"><img src="' . URL . 'public/img/posters/' . $value['poster'] . '" class="poster"></a>';
 		}
-
-		/*
-		 $i = 3;
-		 $j = 2;
-		 $k = 1;
-
-		 foreach ($result AS $key => $value) {
-		 if ($i % 3 == 0)
-		 $posters[0][$key] = '<a href="' . URL . 'movie/display/' . $value['id'] . '"><img src="' . URL . 'public/img/posters/' . $value['poster'] . '" class="img"></a>';
-		 elseif ($j % 3 == 0)
-		 $posters[1][$key] = '<a href="' . URL . 'movie/display/' . $value['id'] . '"><img src="' . URL . 'public/img/posters/' . $value['poster'] . '" class="img"></a>';
-		 elseif ($k % 3 == 0)
-		 $posters[2][$key] = '<a href="' . URL . 'movie/display/' . $value['id'] . '"><img src="' . URL . 'public/img/posters/' . $value['poster'] . '" class="img"></a>';
-		 $i++;
-		 $j++;
-		 $k++;
-		 }
-		 *
-		 */
 
 		$this -> viewModel -> set("getPrew", $getPrew);
 		$this -> viewModel -> set("getNext", $getNext);
@@ -525,8 +506,7 @@ class MovieModel extends BaseModel {
 		}
 
 		$url = $movieData['poster_large'];
-		$imgtitle = basename($url);
-		$path = time() . '-' . $imgtitle;
+		$path = time() . "." . pathinfo($url, PATHINFO_EXTENSION);
 
 		$this -> viewModel -> set('imdbid', $movieData['title_id']);
 		$this -> viewModel -> set('title', $title);
@@ -546,9 +526,6 @@ class MovieModel extends BaseModel {
 	}
 
 	public function publish() {
-		$this -> viewModel -> set('pageTitle', TITLE . '');
-		include 'class/arraytools.php';
-
 		$title = trim($_POST['title']);
 		$imdb = trim($_POST['imdbid']);
 
@@ -572,15 +549,9 @@ class MovieModel extends BaseModel {
 			//Hämta hem postern -- http://www.phpriot.com/articles/download-with-curl-and-php
 
 			$path = $_POST['poster'];
-			/*
-			 $fp = fopen('public/img/posters/' . $path, 'w');
-			 $ch = curl_init($url);
-			 curl_setopt($ch, CURLOPT_FILE, $fp);
-			 $data = curl_exec($ch);
-			 curl_close($ch);
-			 fclose($fp);
-			 *
-			 */
+			$url = $_POST['posterurl'];
+     	$img = 'public/img/posters/' . $path;
+     	file_put_contents($img, file_get_contents($url));
 
 			$sql = "INSERT INTO movies (imdbid, title, plot, year, poster, type, sub, runtime, date, youtube)
  					VALUES(:imdbid, :title, :plot, :year, :path, :type, :sub, :runtime, now(), :youtube)";
@@ -719,8 +690,10 @@ class MovieModel extends BaseModel {
 			header('Location:' . URL . 'movie/display/' . $mid);
 		} else {
 			header('Location:' . URL . 'movie/display/' . $count[0][id]);
-			break;
+			die();
 		}
+
+		$this -> viewModel -> set('pageTitle', TITLE . '');
 		return $this -> viewModel;
 	}
 
@@ -811,7 +784,7 @@ class MovieModel extends BaseModel {
 
 			if (sizeof($resultfrommovies)) {
 				header("Location:" . URL . "movie/display/" . $resultfrommovies[0]['id']);
-				break;
+				die();
 			}
 
 			$sql = "SELECT id FROM queue
@@ -821,7 +794,7 @@ class MovieModel extends BaseModel {
 
 			if (sizeof($resultfromqueue)) {
 				header("Location:" . URL . "movie/queue");
-				break;
+				die();
 			}
 
 			$imdb = new Imdb();
@@ -854,10 +827,6 @@ class MovieModel extends BaseModel {
 						WHERE genre = :genre";
 
 				$result = $this -> db -> multi_query($sql, $param);
-
-				echo '<pre>';
-				var_dump($result);
-				echo '</pre>';
 
 				foreach ($result as $key => $value) {
 					echo sizeof($value);
@@ -900,13 +869,13 @@ class MovieModel extends BaseModel {
 				$resultfrommovies = $this -> db -> select_query($sql, array(':title' => $title));
 				if (sizeof($resultfrommovies) > 0) {
 					header("Location:" . URL . "movie/display/" . $resultfrommovies[0]['id']);
-					break;
+					die();
 				} else {
 					header("Location:" . URL . "movie/queue");
 				}
 			}
 
-			break;
+			die();
 		}
 		$this -> viewModel -> set('urlValues', $this -> urlValues);
 		$this -> viewModel -> set('pageTitle', TITLE . 'Köa en film');
@@ -965,6 +934,5 @@ class MovieModel extends BaseModel {
 		$this -> viewModel -> set('pageTitle', TITLE . 'Köa en film');
 		return $this -> viewModel;
 	}
-
 }
 ?>

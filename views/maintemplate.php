@@ -78,8 +78,8 @@ $url = $viewModel -> get('urlValues');
 						</li>
 					</ul>
 					<?php
-					Session::init();
-					if(Session::get('user_logged_in')) :
+					//Session::init();
+					//if(Session::get('user_logged_in')) :
 					?>
 					<ul class="nav navbar-nav navbar-right">
 						<li>
@@ -87,7 +87,7 @@ $url = $viewModel -> get('urlValues');
 						</li>
 					</ul>
 					<?php
-					endif;
+					//endif;
 					?>
 				</div><!--/.nav-collapse -->
 			</div><!--/Fixed navbar-->

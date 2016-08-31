@@ -9,7 +9,7 @@
 class SeriesModel extends BaseModel {
 	//data passed to the home index view
 	public function index() {
-		$sql = "SELECT series.id, series.name, if(moviecount.count IS NULL, 0, moviecount.count) AS count, group_concat(DISTINCT `genres`.`genre` ORDER BY genres.genre separator ',') AS genres FROM
+		$sql = "SELECT series.id, series.name, if(moviecount.count IS NULL, 0, moviecount.count) AS count, group_concat(DISTINCT `genres`.`genre` ORDER BY genres.genre separator ', ') AS genres FROM
 				series LEFT JOIN moviesinseries ON series.id = moviesinseries.seriesID
 				LEFT JOIN genresinmovies ON moviesinseries.movieID = genresinmovies.movie_id
 				LEFT JOIN genres ON genresinmovies.genre_id = genres.id
@@ -38,7 +38,7 @@ class SeriesModel extends BaseModel {
 
 	public function display() {
 		$id = $this -> urlValues['id'];
-		$sql = "SELECT series.name, movies.title, movies.id, moviesinseries.number, group_concat(DISTINCT `genres`.`genre` ORDER BY genres.genre separator ',') AS genres FROM
+		$sql = "SELECT series.name, movies.title, movies.id, moviesinseries.number, group_concat(DISTINCT `genres`.`genre` ORDER BY genres.genre separator ', ') AS genres FROM
 				series JOIN moviesinseries ON series.id = moviesinseries.seriesID
 				JOIN movies ON moviesinseries.movieID = movies.id
 				JOIN genresinmovies ON genresinmovies.movie_id = movies.id
