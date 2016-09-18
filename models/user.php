@@ -87,7 +87,6 @@ ORDER BY towatch.date, allMovies.title*/
 				ORDER BY avg DESC) AS avg
 				ON avg.genre_id = gim.genre_id
 				LEFT JOIN userviewed AS uw ON uw.movieid = movies.id
-				WHERE uw.date IS NULL
 				GROUP BY movies.id
 				ORDER BY totalavg DESC";
 
@@ -124,7 +123,7 @@ ORDER BY towatch.date, allMovies.title*/
 		$this -> viewModel -> set('tableHead', array('Film', 'År', 'Poäng'));
 		$this -> viewModel -> set('tableBody', $tableBody);
 		$this -> viewModel -> set('urlValues', $this -> urlValues);
-		$this -> viewModel -> set('pageTitle', TITLE . 'Filmer att se');
+		$this -> viewModel -> set('pageTitle', TITLE . 'Rekomenderade filmer');
 		return $this -> viewModel;
 	}
 
